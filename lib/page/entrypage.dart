@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hcms/model/room.dart';
 
 class EntryPage extends StatefulWidget {
   const EntryPage({Key? key}) : super(key: key);
@@ -29,67 +30,36 @@ class _EntryPageState extends State<EntryPage>
   int amount = 0; //总价
   int price = 0; //单价
 
-  List<String> rooms = [
-    "201",
-    "202",
-    "203",
-    "205",
-    "206",
-    "207",
-    "208",
-    "209",
-    "210",
-    "211",
-    "212",
-    "213",
-    "215",
-    "216",
-    "217",
-    "301",
-    "302",
-    "303",
-    "305",
-    "306",
-    "307",
-    "308",
-    "309",
-    "310",
-    "311",
-    "312",
-    "313",
-    "315"
+  List<Room> rooms = [
+    Room(201, 1,"宾馆"),
+    Room(202, 1,"宾馆"),
+    Room(203, 2,"宾馆"),
+    Room(205, 2,"宾馆"),
+    Room(206, 1,"宾馆"),
+    Room(207, 1,"宾馆"),
+    Room(208, 1,"宾馆"),
+    Room(209, 1,"宾馆"),
+    Room(210, 1,"宾馆"),
+    Room(211, 1,"宾馆"),
+    Room(212, 1,"宾馆"),
+    Room(213, 1,"宾馆"),
+    Room(215, 1,"宾馆"),
+    Room(216, 1,"宾馆"),
+    Room(217, 2,"宾馆"),
+    Room(301, 0,"公寓"),
+    Room(302, 0,"公寓"),
+    Room(303, 0,"公寓"),
+    Room(305, 0,"公寓"),
+    Room(306, 0,"公寓"),
+    Room(307, 0,"公寓"),
+    Room(308, 0,"公寓"),
+    Room(309, 0,"公寓"),
+    Room(310, 0,"公寓"),
+    Room(311, 0,"公寓"),
+    Room(312, 0,"公寓"),
+    Room(313, 0,"公寓"),
+    Room(315, 0,"公寓")
   ];
-
-  List<String> lowPriceRooms = [
-    "301",
-    "302",
-    "303",
-    "305",
-    "306",
-    "307",
-    "308",
-    "309",
-    "310",
-    "311",
-    "312",
-    "313",
-    "315"
-  ];
-  List<String> midPriceRooms = [
-    "201",
-    "202",
-    "206",
-    "207",
-    "208",
-    "209",
-    "210",
-    "211",
-    "212",
-    "213",
-    "215",
-    "216"
-  ];
-  List<String> highPriceRooms = ["203", "205", "217"];
 
   List<int> dollarPrice = [39, 53, 72];
   List<int> rmbPrice = [280, 380, 518];
@@ -101,6 +71,7 @@ class _EntryPageState extends State<EntryPage>
   void initState() {
     super.initState();
     setState(() {
+      _changedPrice();
       _lowKzController.text = kzPrice[0].toString();
       _midKzController.text = kzPrice[1].toString();
       _highKzController.text = kzPrice[2].toString();
@@ -223,6 +194,7 @@ class _EntryPageState extends State<EntryPage>
                                           int.parse(_midDollarController.text);
                                       dollarPrice[2] =
                                           int.parse(_highDollarController.text);
+                                      _changedPrice();
                                     });
                                     Navigator.pop(context, '确定');
                                   },
@@ -231,7 +203,7 @@ class _EntryPageState extends State<EntryPage>
                               ],
                             )),
                     child: const Text(
-                      "设置单价",
+                      "设置今日单价",
                       style: TextStyle(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
@@ -248,18 +220,7 @@ class _EntryPageState extends State<EntryPage>
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: DropdownButton(
-                  hint: const Text('Choose an option'),
-                  value: kzPrice.first,
-                  onChanged: (value) {
-                    setState(() {
-                      price = int.parse(value as String);
-                    });
-                  },
-                  items: kzPrice
-                      .map((e) => DropdownMenuItem(value: e, child: Text("$e")))
-                      .toList(),
-                ),
+                child: Text("$price"),
               )),
               const Expanded(flex: 1, child: Text("总计:")),
               Expanded(
@@ -287,9 +248,10 @@ class _EntryPageState extends State<EntryPage>
                 ),
                 itemCount: rooms.length,
                 itemBuilder: (context, index) {
-                  return rButton(rooms[index], defaultLiving, () {
+                  return rButton(rooms[index].no.toString(), defaultLiving, () {
                     setState(() {
-                      defaultLiving = rooms[index];
+                      defaultLiving = rooms[index].no.toString();
+                      _changedPrice();
                     });
                   });
                 },
@@ -321,6 +283,25 @@ class _EntryPageState extends State<EntryPage>
     );
   }
 
+  void _changedPrice() {
+    for (var element in rooms) {
+      if (element.no.toString() == defaultLiving) {
+        switch (currencyUnit) {
+          case "宽扎":
+            price = kzPrice[element.level];
+            break;
+          case "人民币":
+            price = rmbPrice[element.level];
+            break;
+          case "美元":
+            price = dollarPrice[element.level];
+            break;
+        }
+      }
+    }
+    amount = price * living;
+  }
+
   void _changedEntryType(value) {
     setState(() {
       entryType = value;
@@ -330,6 +311,7 @@ class _EntryPageState extends State<EntryPage>
   void _changedCurrencyUnit(value) {
     setState(() {
       currencyUnit = value;
+      _changedPrice();
     });
   }
 
@@ -342,7 +324,7 @@ class _EntryPageState extends State<EntryPage>
   void _addition() {
     setState(() {
       living = living + 1;
-      amount = amount * living;
+      amount = price * living;
     });
   }
 
@@ -350,7 +332,7 @@ class _EntryPageState extends State<EntryPage>
     setState(() {
       if (living > 1) {
         living = living - 1;
-        amount = amount * living;
+        amount = price * living;
       }
     });
   }
@@ -363,6 +345,7 @@ class _EntryPageState extends State<EntryPage>
       living = 1; //入住天数
       defaultLiving = "201";
       amount = 0;
+      _changedPrice();
     });
   }
 
@@ -377,7 +360,7 @@ class _EntryPageState extends State<EntryPage>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: const [
-                Text("低级房", style: TextStyle(fontWeight: FontWeight.w700))
+                Text("公寓", style: TextStyle(fontWeight: FontWeight.w700))
               ]),
             ),
             Row(
@@ -432,7 +415,7 @@ class _EntryPageState extends State<EntryPage>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: const [
-                Text("中级房", style: TextStyle(fontWeight: FontWeight.w700))
+                Text("宾馆", style: TextStyle(fontWeight: FontWeight.w700))
               ]),
             ),
             Row(
@@ -487,7 +470,7 @@ class _EntryPageState extends State<EntryPage>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: const [
-                Text("高级房", style: TextStyle(fontWeight: FontWeight.w700))
+                Text("高级套房", style: TextStyle(fontWeight: FontWeight.w700))
               ]),
             ),
             Row(
