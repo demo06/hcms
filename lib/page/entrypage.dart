@@ -348,8 +348,10 @@ class _EntryPageState extends State<EntryPage>
 
   void _subtraction() {
     setState(() {
-      living = living - 1;
-      amount = amount * living;
+      if (living > 1) {
+        living = living - 1;
+        amount = amount * living;
+      }
     });
   }
 
