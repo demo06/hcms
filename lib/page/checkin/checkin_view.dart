@@ -179,7 +179,7 @@ class _CheckInPageState extends State<CheckInPage> {
                 ),
                 Row(
                   children: [
-                    const Expanded(flex: 1, child: Text("收款金额:")),
+                    const Expanded(flex: 1, child: Text("实收金额:")),
                     Expanded(
                         child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
