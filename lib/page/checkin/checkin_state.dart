@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hcms/model/room.dart';
 
-class CheckinState {
+class CheckInState {
+  late TextEditingController realIncomeController;
   late TextEditingController lowKzController;
 
   late TextEditingController midKzController;
@@ -20,14 +21,15 @@ class CheckinState {
 
   late TextEditingController highRmbController;
 
-  late String entryType; //1.宾馆 2.公寓
+  late String payType; //1.实收  2.预收
   late String currencyUnit; //1.宽扎 2.人民币 3.美元
-  late String transType; //转账类型 1.现金 2.微信转账 3.挂账
+  late String transType; //转账类型 1.现金 2.微信转账 3.挂账 4.刷卡
   late int living; //入住天数
   late String defaultLiving;
 
   late int amount; //总价
   late int price; //单价
+  late String realIncome; //实收
 
   late List<Room> rooms;
 
@@ -36,7 +38,8 @@ class CheckinState {
 
   late List<int> kzPrice;
 
-  CheckinState() {
+  CheckInState() {
+    realIncomeController = TextEditingController();
     lowKzController = TextEditingController();
     midKzController = TextEditingController();
     highKzController = TextEditingController();
@@ -47,13 +50,14 @@ class CheckinState {
     midRmbController = TextEditingController();
     highRmbController = TextEditingController();
 
-    entryType = "宾馆"; //1.宾馆 2.公寓
+    payType = "实收"; //1.实收  2.预收
     currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
     transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
     living = 1; //入住天数
     defaultLiving = "201";
     amount = 0; //总价
     price = 0; //单价
+    realIncome = "0"; //实收
 
     rooms = [
       Room(201, 1, "宾馆"),

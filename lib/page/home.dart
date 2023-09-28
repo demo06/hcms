@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hcms/page/checkin/checkin_view.dart';
-import 'package:hcms/page/entrypage.dart';
-import 'package:hcms/page/recordpage.dart';
+import 'package:hcms/page/record/record_view.dart';
 import 'package:hovering/hovering.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../model/nav.dart';
-import '../utils/SpUtil.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -18,7 +16,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WindowListener {
   final PageController _transController = PageController();
 
-
   List<Navigation> navigator = [
     Navigation("收银录入", Icons.monetization_on_rounded, true),
     Navigation("入住记录", Icons.receipt_long_rounded, false),
@@ -28,7 +25,6 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
     const CheckInPage(),
     const RecordPage(),
   ];
-
 
   @override
   void initState() {
@@ -68,16 +64,11 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                         children: [
                           Text(
                             "HCMS",
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w900),
+                            style: TextStyle(color: Colors.red, fontSize: 24, fontWeight: FontWeight.w900),
                           ),
                           Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Text("酒店收银管理系统",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18)),
+                            child: Text("酒店收银管理系统", style: TextStyle(color: Colors.white, fontSize: 18)),
                           ),
                         ],
                       ),
@@ -99,9 +90,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                               )),
                           IconButton(
                               onPressed: () async {
-                                await windowManager.isMaximized()
-                                    ? windowManager.restore()
-                                    : windowManager.maximize();
+                                await windowManager.isMaximized() ? windowManager.restore() : windowManager.maximize();
                               },
                               icon: const Icon(
                                 Icons.crop_7_5_rounded,
@@ -136,10 +125,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                   child: ListView.builder(
                       itemCount: navigator.length,
                       itemBuilder: (context, index) {
-                        return leftItem(
-                            navigator[index].name,
-                            navigator[index].icon,
-                            navigator[index].isSelect, () {
+                        return leftItem(navigator[index].name, navigator[index].icon, navigator[index].isSelect, () {
                           setState(() {
                             for (int i = 0; i < navigator.length; i++) {
                               navigator[i].isSelect = false;
@@ -172,10 +158,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
     );
   }
 
-
-
-  Widget leftItem(
-      String title, IconData icon, bool isSelect, VoidCallback onPressed) {
+  Widget leftItem(String title, IconData icon, bool isSelect, VoidCallback onPressed) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 4, bottom: 4),
       child: HoverButton(
@@ -186,11 +169,9 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
         onpressed: onPressed,
         hoverElevation: 0,
         color: isSelect ? const Color(0xFFF44336) : const Color(0XFFF2F2F2),
-        hoverPadding:
-            const EdgeInsets.only(left: 8, right: 8, top: 2.5, bottom: 2.5),
+        hoverPadding: const EdgeInsets.only(left: 8, right: 8, top: 2.5, bottom: 2.5),
         hoverColor: const Color(0xFFF44336),
-        padding:
-            const EdgeInsets.only(left: 8, right: 8, top: 2.5, bottom: 2.5),
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 2.5, bottom: 2.5),
         child: Container(
           height: 40,
           alignment: Alignment.centerLeft,
@@ -200,10 +181,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                 padding: const EdgeInsets.only(left: 8, right: 12),
                 child: Icon(icon, color: Colors.black54, size: 20),
               ),
-              Text(title,
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: isSelect ? Colors.white : Colors.grey)),
+              Text(title, style: TextStyle(fontSize: 13, color: isSelect ? Colors.white : Colors.grey)),
             ],
           ),
         ),

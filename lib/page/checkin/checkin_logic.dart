@@ -1,13 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'checkin_state.dart';
 
-class CheckinLogic extends GetxController {
-  final CheckinState state = CheckinState();
+class CheckInLogic extends GetxController {
+  final CheckInState state = CheckInState();
 
   @override
   void onInit() {
     changedPrice();
+    state.realIncomeController.text = "0";
     state.lowKzController.text = state.kzPrice[0].toString();
     state.midKzController.text = state.kzPrice[1].toString();
     state.highKzController.text = state.kzPrice[2].toString();
@@ -40,7 +42,7 @@ class CheckinLogic extends GetxController {
   }
 
   void changedEntryType(value) {
-    state.entryType = value;
+    state.payType = value;
     update();
   }
 
@@ -89,8 +91,20 @@ class CheckinLogic extends GetxController {
     update();
   }
 
+  void showToast(BuildContext context, String text) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(milliseconds: 500),
+      content: Text(checkRealIncome() ? "添加成功" : "实收现金不是数字"),
+    ));
+  }
+
+  bool checkRealIncome() {
+    state.realIncome = state.realIncomeController.text;
+    return state.realIncome.isNum;
+  }
+
   void resetDefaultValue() {
-    state.entryType = "宾馆"; //1.宾馆 2.公寓
+    state.payType = "宾馆"; //1.宾馆 2.公寓
     state.currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
     state.transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
     state.living = 1; //入住天数

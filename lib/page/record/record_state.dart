@@ -1,0 +1,4 @@
+class RecordState {
+  RecordState() {
+  }
+}
