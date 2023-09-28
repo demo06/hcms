@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hcms/page/checkin/checkin_view.dart';
 import 'package:hcms/page/entrypage.dart';
 import 'package:hcms/page/recordpage.dart';
 import 'package:hovering/hovering.dart';
@@ -24,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   ];
 
   List<Widget> page = [
-    const EntryPage(),
+    const CheckInPage(),
     const RecordPage(),
   ];
 
@@ -63,8 +64,8 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(left: 20),
                       width: MediaQuery.of(context).size.width / 2,
-                      child: Row(
-                        children: const [
+                      child: const Row(
+                        children: [
                           Text(
                             "HCMS",
                             style: TextStyle(

@@ -31,41 +31,39 @@ class _EntryPageState extends State<EntryPage>
   int price = 0; //单价
 
   List<Room> rooms = [
-    Room(201, 1,"宾馆"),
-    Room(202, 1,"宾馆"),
-    Room(203, 2,"宾馆"),
-    Room(205, 2,"宾馆"),
-    Room(206, 1,"宾馆"),
-    Room(207, 1,"宾馆"),
-    Room(208, 1,"宾馆"),
-    Room(209, 1,"宾馆"),
-    Room(210, 1,"宾馆"),
-    Room(211, 1,"宾馆"),
-    Room(212, 1,"宾馆"),
-    Room(213, 1,"宾馆"),
-    Room(215, 1,"宾馆"),
-    Room(216, 1,"宾馆"),
-    Room(217, 2,"宾馆"),
-    Room(301, 0,"公寓"),
-    Room(302, 0,"公寓"),
-    Room(303, 0,"公寓"),
-    Room(305, 0,"公寓"),
-    Room(306, 0,"公寓"),
-    Room(307, 0,"公寓"),
-    Room(308, 0,"公寓"),
-    Room(309, 0,"公寓"),
-    Room(310, 0,"公寓"),
-    Room(311, 0,"公寓"),
-    Room(312, 0,"公寓"),
-    Room(313, 0,"公寓"),
-    Room(315, 0,"公寓")
+    Room(201, 1, "宾馆"),
+    Room(202, 1, "宾馆"),
+    Room(203, 2, "宾馆"),
+    Room(205, 2, "宾馆"),
+    Room(206, 1, "宾馆"),
+    Room(207, 1, "宾馆"),
+    Room(208, 1, "宾馆"),
+    Room(209, 1, "宾馆"),
+    Room(210, 1, "宾馆"),
+    Room(211, 1, "宾馆"),
+    Room(212, 1, "宾馆"),
+    Room(213, 1, "宾馆"),
+    Room(215, 1, "宾馆"),
+    Room(216, 1, "宾馆"),
+    Room(217, 2, "宾馆"),
+    Room(301, 0, "公寓"),
+    Room(302, 0, "公寓"),
+    Room(303, 0, "公寓"),
+    Room(305, 0, "公寓"),
+    Room(306, 0, "公寓"),
+    Room(307, 0, "公寓"),
+    Room(308, 0, "公寓"),
+    Room(309, 0, "公寓"),
+    Room(310, 0, "公寓"),
+    Room(311, 0, "公寓"),
+    Room(312, 0, "公寓"),
+    Room(313, 0, "公寓"),
+    Room(315, 0, "公寓")
   ];
 
   List<int> dollarPrice = [39, 53, 72];
   List<int> rmbPrice = [280, 380, 518];
   List<int> kzPrice = [32000, 43000, 59000];
-
-  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -82,13 +80,6 @@ class _EntryPageState extends State<EntryPage>
       _midRmbController.text = rmbPrice[1].toString();
       _highRmbController.text = rmbPrice[2].toString();
     });
-    _controller.text = "0";
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
   }
 
   @override
@@ -357,9 +348,9 @@ class _EntryPageState extends State<EntryPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(children: const [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(children: [
                 Text("公寓", style: TextStyle(fontWeight: FontWeight.w700))
               ]),
             ),
