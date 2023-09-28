@@ -34,7 +34,7 @@ class _CheckInPageState extends State<CheckInPage> {
                 ),
                 Row(
                   children: [
-                    const Expanded(child: Text("入住类型:")),
+                    const Expanded(child: Text("收费方式:")),
                     Expanded(
                         child: RadioButton(
                             title: "实收",
@@ -121,10 +121,7 @@ class _CheckInPageState extends State<CheckInPage> {
                 Row(
                   children: [
                     const Expanded(flex: 1, child: Text("入住天数:")),
-                    Expanded(
-                        flex: 1,
-                        child:
-                            NumberView(number: state.living, addition: logic.addition, subtraction: logic.subtraction)),
+                    Expanded(flex: 1, child: NumberView(number: state.living, addition: logic.addition, subtraction: logic.subtraction)),
                     const Expanded(flex: 1, child: Text("设置单价:")),
                     Expanded(
                         flex: 1,
@@ -182,19 +179,28 @@ class _CheckInPageState extends State<CheckInPage> {
                 ),
                 Row(
                   children: [
-                    const Expanded(flex: 1, child: Text("实收现金:")),
+                    const Expanded(flex: 1, child: Text("收款金额:")),
                     Expanded(
                         child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: TextField(
-                          decoration: const InputDecoration(hintText: "请输入实收现金"),
+                          decoration: const InputDecoration(hintText: "请输入收款金额"),
                           controller: state.realIncomeController,
                           onChanged: (value) {
                             state.realIncomeController.text = value;
                           }),
                     )),
-                    const Expanded(flex: 1, child: Text("")),
-                    const Expanded(flex: 1, child: Text(""))
+                    const Expanded(flex: 1, child: Text("备注:")),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: TextField(
+                          decoration: const InputDecoration(hintText: "请输入备注"),
+                          controller: state.remarkController,
+                          onChanged: (value) {
+                            state.remarkController.text = value;
+                          }),
+                    )),
                   ],
                 ),
                 Padding(
@@ -277,9 +283,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         });
                       },
                       decoration: const InputDecoration(
-                          labelText: "宽扎",
-                          contentPadding: EdgeInsets.all(4),
-                          border: OutlineInputBorder(gapPadding: 0))),
+                          labelText: "宽扎", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                 ),
                 Expanded(
                   child: Padding(
@@ -293,9 +297,7 @@ class _CheckInPageState extends State<CheckInPage> {
                           });
                         },
                         decoration: const InputDecoration(
-                            labelText: "人民币",
-                            contentPadding: EdgeInsets.all(4),
-                            border: OutlineInputBorder(gapPadding: 0))),
+                            labelText: "人民币", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                   ),
                 ),
                 Expanded(
@@ -308,9 +310,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         });
                       },
                       decoration: const InputDecoration(
-                          labelText: "美元",
-                          contentPadding: EdgeInsets.all(4),
-                          border: OutlineInputBorder(gapPadding: 0))),
+                          labelText: "美元", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                 ),
               ],
             ),
@@ -330,9 +330,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         });
                       },
                       decoration: const InputDecoration(
-                          labelText: "宽扎",
-                          contentPadding: EdgeInsets.all(4),
-                          border: OutlineInputBorder(gapPadding: 0))),
+                          labelText: "宽扎", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                 ),
                 Expanded(
                   child: Padding(
@@ -346,9 +344,7 @@ class _CheckInPageState extends State<CheckInPage> {
                           });
                         },
                         decoration: const InputDecoration(
-                            labelText: "人民币",
-                            contentPadding: EdgeInsets.all(4),
-                            border: OutlineInputBorder(gapPadding: 0))),
+                            labelText: "人民币", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                   ),
                 ),
                 Expanded(
@@ -361,9 +357,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         });
                       },
                       decoration: const InputDecoration(
-                          labelText: "美元",
-                          contentPadding: EdgeInsets.all(4),
-                          border: OutlineInputBorder(gapPadding: 0))),
+                          labelText: "美元", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                 ),
               ],
             ),
@@ -383,9 +377,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         });
                       },
                       decoration: const InputDecoration(
-                          labelText: "宽扎",
-                          contentPadding: EdgeInsets.all(4),
-                          border: OutlineInputBorder(gapPadding: 0))),
+                          labelText: "宽扎", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                 ),
                 Expanded(
                   child: Padding(
@@ -399,9 +391,7 @@ class _CheckInPageState extends State<CheckInPage> {
                           });
                         },
                         decoration: const InputDecoration(
-                            labelText: "人民币",
-                            contentPadding: EdgeInsets.all(4),
-                            border: OutlineInputBorder(gapPadding: 0))),
+                            labelText: "人民币", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                   ),
                 ),
                 Expanded(
@@ -414,9 +404,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         });
                       },
                       decoration: const InputDecoration(
-                          labelText: "美元",
-                          contentPadding: EdgeInsets.all(4),
-                          border: OutlineInputBorder(gapPadding: 0))),
+                          labelText: "美元", contentPadding: EdgeInsets.all(4), border: OutlineInputBorder(gapPadding: 0))),
                 ),
               ],
             )

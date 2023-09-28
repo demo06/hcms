@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:hcms/model/room.dart';
 
 class CheckInState {
+  late TextEditingController remarkController;
   late TextEditingController realIncomeController;
+
   late TextEditingController lowKzController;
 
   late TextEditingController midKzController;
@@ -39,6 +41,7 @@ class CheckInState {
   late List<int> kzPrice;
 
   CheckInState() {
+    remarkController = TextEditingController();
     realIncomeController = TextEditingController();
     lowKzController = TextEditingController();
     midKzController = TextEditingController();
