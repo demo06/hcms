@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hcms/model/record.dart';
 import 'package:hcms/page/checkin/checkin_view.dart';
 import 'package:hcms/page/record/record_view.dart';
+import 'package:hcms/utils/db_open_helper.dart';
 import 'package:hovering/hovering.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -26,9 +28,28 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
     const RecordPage(),
   ];
 
+  var data = RoomRecord(
+      roomNo: 301,
+      roomType: "宾馆",
+      payType: "实收",
+      currencyUnit: "宽扎",
+      livingDays: 1,
+      price: 1000,
+      amountPrice: 5000,
+      transType: "现金",
+      realPayAmount: 1000,
+      date: DateTime.now().millisecondsSinceEpoch,
+      remark: "");
+
   @override
   void initState() {
     super.initState();
+    DBHelper.getInstance().recordDao.insert(data);
+    DBHelper.getInstance().recordDao.insert(data);
+    DBHelper.getInstance().recordDao.insert(data);
+    DBHelper.getInstance().recordDao.insert(data);
+    DBHelper.getInstance().recordDao.insert(data);
+    DBHelper.getInstance().recordDao.insert(data);
     windowManager.addListener(this);
   }
 

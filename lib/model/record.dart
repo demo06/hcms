@@ -14,7 +14,7 @@
 class RoomRecord {
   RoomRecord({
     num? id,
-    num? roomNum,
+    num? roomNo,
     String? payType,
     String? roomType,
     String? currencyUnit,
@@ -27,7 +27,7 @@ class RoomRecord {
     String? remark,
   }) {
     _id = id;
-    _roomNum = roomNum;
+    _roomNo = roomNo;
     _payType = payType;
     _roomType = roomType;
     _currencyUnit = currencyUnit;
@@ -42,7 +42,7 @@ class RoomRecord {
 
   RoomRecord.fromJson(dynamic json) {
     _id = json['id'];
-    _roomNum = json['roomNum'];
+    _roomNo = json['roomNo'];
     _payType = json['payType'];
     _roomType = json['roomType'];
     _currencyUnit = json['currencyUnit'];
@@ -56,7 +56,7 @@ class RoomRecord {
   }
 
   num? _id;
-  num? _roomNum;
+  num? _roomNo;
   String? _payType;
   String? _roomType;
   String? _currencyUnit;
@@ -70,7 +70,7 @@ class RoomRecord {
 
   RoomRecord copyWith({
     num? id,
-    num? roomNum,
+    num? roomNo,
     String? payType,
     String? roomType,
     String? currencyUnit,
@@ -84,7 +84,7 @@ class RoomRecord {
   }) =>
       RoomRecord(
         id: id ?? _id,
-        roomNum: roomNum ?? _roomNum,
+        roomNo: roomNo ?? _roomNo,
         payType: payType ?? _payType,
         roomType: roomType ?? _roomType,
         currencyUnit: currencyUnit ?? _currencyUnit,
@@ -99,7 +99,7 @@ class RoomRecord {
 
   num get id => _id ?? 0;
 
-  num get roomNum => _roomNum ?? 0;
+  num get roomNo => _roomNo ?? 0;
 
   String get payType => _payType ?? "";
 
@@ -124,7 +124,7 @@ class RoomRecord {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
-    map['roomNum'] = _roomNum;
+    map['roomNo'] = _roomNo;
     map['payType'] = _payType;
     map['roomType'] = _roomType;
     map['currencyUnit'] = _currencyUnit;

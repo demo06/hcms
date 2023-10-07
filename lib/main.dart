@@ -5,7 +5,7 @@ import 'package:hcms/utils/windows_setting.dart';
 
 void main() async {
   WindowsSetting.initWindowsSetting();
-  DbHelper.initDb();
+  DBHelper.getInstance().initDB();
   runApp(const MyApp());
 }
 

@@ -78,7 +78,7 @@ class _RecordPageState extends State<RecordPage> {
   Widget _row(RoomRecord record) {
     return Row(
       children: [
-        Expanded(flex: 1, child: _cell(title: record.roomNum.toString())),
+        Expanded(flex: 1, child: _cell(title: record.roomNo.toString())),
         Expanded(flex: 1, child: _cell(title: record.roomType.toString())),
         Expanded(flex: 1, child: _cell(title: record.payType.toString())),
         Expanded(flex: 1, child: _cell(title: record.currencyUnit.toString())),

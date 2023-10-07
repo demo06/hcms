@@ -8,7 +8,7 @@ class RecordState {
     recordList = [
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
@@ -21,7 +21,7 @@ class RecordState {
           remark: ""),
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
@@ -34,7 +34,7 @@ class RecordState {
           remark: ""),
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
@@ -47,7 +47,7 @@ class RecordState {
           remark: ""),
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
@@ -60,7 +60,7 @@ class RecordState {
           remark: ""),
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
@@ -73,7 +73,7 @@ class RecordState {
           remark: ""),
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
@@ -86,7 +86,7 @@ class RecordState {
           remark: ""),
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
@@ -99,7 +99,7 @@ class RecordState {
           remark: ""),
       RoomRecord(
           id: 0,
-          roomNum: 301,
+          roomNo: 301,
           roomType: "宾馆",
           payType: "实收",
           currencyUnit: "宽扎",
