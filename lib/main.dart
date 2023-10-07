@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hcms/page/home.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:hcms/utils/db_open_helper.dart';
+import 'package:hcms/utils/windows_setting.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(1200, 800),
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
+  WindowsSetting.initWindowsSetting();
+  DbHelper.initDb();
   runApp(const MyApp());
 }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/model/record.dart';
-import 'package:hcms/utils/TimeUtil.dart';
+import 'package:hcms/utils/time_util.dart';
 import 'package:hcms/widget/radio_button.dart';
 
 import 'record_logic.dart';

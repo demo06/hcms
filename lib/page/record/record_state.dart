@@ -1,5 +1,5 @@
 import 'package:hcms/model/record.dart';
-import 'package:hcms/utils/TimeUtil.dart';
+import 'package:hcms/utils/time_util.dart';
 
 class RecordState {
   late List<RoomRecord> recordList;
