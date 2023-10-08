@@ -116,7 +116,7 @@ class _RecordPageState extends State<RecordPage> {
                           TextButton(
                             onPressed: () async {
                               Navigator.pop(context, '确定');
-                              logic.updateRecord(record);
+                              logic.updateRecord(state.record);
                             },
                             child: const Text('确定'),
                           ),

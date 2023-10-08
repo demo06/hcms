@@ -27,6 +27,8 @@ class _EditPageState extends State<EditPage> {
       state.priceController.text = widget.record.price.toString();
       state.realIncomeController.text = widget.record.realPayAmount.toString();
       state.remarkController.text = widget.record.remark.toString();
+      print("dialog1==>${widget.record.toString()}");
+      print("dialog==>${state.record.toString()}");
     });
   }
 

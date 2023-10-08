@@ -70,9 +70,9 @@ class RecordLogic extends GetxController {
   }
 
   void updateRecord(RoomRecord record) async {
-    print(state.record.id);
-    print(state.record.toString());
-    await state.recordDao.update(state.record);
+    print(record.id);
+    print(record.toString());
+    await state.recordDao.update(record);
     refreshList();
     update();
   }
