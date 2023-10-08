@@ -28,7 +28,7 @@ class RecordState {
     realIncomeController = TextEditingController();
 
     record = RoomRecord(
-        roomNo: 301,
+        roomNo: 201,
         roomType: "宾馆",
         payType: "实收",
         currencyUnit: "宽扎",

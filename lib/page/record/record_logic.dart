@@ -18,12 +18,6 @@ class RecordLogic extends GetxController {
     update();
   }
 
-  void initData(RoomRecord record) {
-    state.record = record;
-    state.priceController.text = record.price.toString();
-    state.realIncomeController.text = record.realPayAmount.toString();
-    state.remarkController.text = record.remark.toString();
-  }
 
   void changePayType(String payType) {
     state.record = state.record.copyWith(payType: payType);
@@ -75,8 +69,9 @@ class RecordLogic extends GetxController {
     update();
   }
 
-  void updateRecord() async {
+  void updateRecord(RoomRecord record) async {
     print(state.record.id);
+    print(state.record.toString());
     await state.recordDao.update(state.record);
     refreshList();
     update();

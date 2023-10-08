@@ -22,7 +22,12 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
-    logic.initData(widget.record);
+    setState(() {
+      state.record = widget.record;
+      state.priceController.text = widget.record.price.toString();
+      state.realIncomeController.text = widget.record.realPayAmount.toString();
+      state.remarkController.text = widget.record.remark.toString();
+    });
   }
 
   @override
