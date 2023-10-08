@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hcms/dao/record_dao.dart';
 import 'package:hcms/model/record.dart';
 import 'package:hcms/page/checkin/checkin_view.dart';
 import 'package:hcms/page/record/record_view.dart';
-import 'package:hcms/utils/db_open_helper.dart';
+import 'package:hcms/utils/db_helper.dart';
 import 'package:hovering/hovering.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -44,13 +45,14 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   @override
   void initState() {
     super.initState();
-    DBHelper.getInstance().recordDao.insert(data);
-    DBHelper.getInstance().recordDao.insert(data);
-    DBHelper.getInstance().recordDao.insert(data);
-    DBHelper.getInstance().recordDao.insert(data);
-    DBHelper.getInstance().recordDao.insert(data);
-    DBHelper.getInstance().recordDao.insert(data);
+    initDate();
     windowManager.addListener(this);
+  }
+
+  Future<void> initDate() async {
+    for (var i = 0; i < 100; i++) {
+      await DB.instance.recordDao.insert(data);
+    }
   }
 
   @override

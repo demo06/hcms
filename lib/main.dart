@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hcms/page/home.dart';
-import 'package:hcms/utils/db_open_helper.dart';
+import 'package:hcms/utils/db_helper.dart';
 import 'package:hcms/utils/windows_setting.dart';
 
 void main() async {
   WindowsSetting.initWindowsSetting();
-  DBHelper.getInstance().initDB();
+  await DB.instance.initDb();
   runApp(const MyApp());
 }
 
