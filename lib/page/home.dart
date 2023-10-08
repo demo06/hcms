@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   @override
   void initState() {
     super.initState();
-    initDate();
+    // initDate();
     windowManager.addListener(this);
   }
 

@@ -40,7 +40,7 @@ class RoomRecord {
     _remark = remark;
   }
 
-  RoomRecord.fromJson(dynamic json) {
+  RoomRecord.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
     _roomNo = json['roomNo'];
     _payType = json['payType'];
@@ -52,7 +52,7 @@ class RoomRecord {
     _transType = json['transType'];
     _realPayAmount = json['realPayAmount'];
     _date = json['date'];
-    _remark = json['remark'];
+    _remark = json['remark'].toString();
   }
 
   num? _id;
@@ -136,5 +136,10 @@ class RoomRecord {
     map['date'] = _date;
     map['remark'] = _remark;
     return map;
+  }
+
+  @override
+  String toString() {
+    return 'RoomRecord{_id: $_id, _roomNo: $_roomNo, _payType: $_payType, _roomType: $_roomType, _currencyUnit: $_currencyUnit, _livingDays: $_livingDays, _price: $_price, _amountPrice: $_amountPrice, _transType: $_transType, _realPayAmount: $_realPayAmount, _date: $_date, _remark: $_remark}';
   }
 }

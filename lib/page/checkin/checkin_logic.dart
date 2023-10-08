@@ -104,7 +104,7 @@ class CheckInLogic extends GetxController {
   }
 
   void resetDefaultValue() {
-    state.payType = "宾馆"; //1.宾馆 2.公寓
+    state.payType = "实收"; //1.实收 2.预收
     state.currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
     state.transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
     state.living = 1; //入住天数

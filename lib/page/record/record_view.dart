@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/model/record.dart';
+import 'package:hcms/page/edit/edit_view.dart';
 import 'package:hcms/utils/time_util.dart';
 import 'package:hcms/widget/radio_button.dart';
 
@@ -44,6 +45,7 @@ class _RecordPageState extends State<RecordPage> {
                   decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 0.1)),
                   child: Row(
                     children: [
+                      Expanded(flex: 1, child: _cell(title: "序号", isTitle: true)),
                       Expanded(flex: 1, child: _cell(title: "房间号", isTitle: true)),
                       Expanded(flex: 1, child: _cell(title: "房间类型", isTitle: true)),
                       Expanded(flex: 1, child: _cell(title: "收费方式", isTitle: true)),
@@ -55,6 +57,7 @@ class _RecordPageState extends State<RecordPage> {
                       Expanded(flex: 1, child: _cell(title: "实收金额", isTitle: true)),
                       Expanded(flex: 1, child: _cell(title: "日期", isTitle: true)),
                       Expanded(flex: 1, child: _cell(title: "备注", isTitle: true)),
+                      Expanded(flex: 1, child: _cell(title: "操作", isTitle: true)),
                     ],
                   ),
                 ),
@@ -78,6 +81,7 @@ class _RecordPageState extends State<RecordPage> {
   Widget _row(RoomRecord record) {
     return Row(
       children: [
+        Expanded(flex: 1, child: _cell(title: record.id.toString())),
         Expanded(flex: 1, child: _cell(title: record.roomNo.toString())),
         Expanded(flex: 1, child: _cell(title: record.roomType.toString())),
         Expanded(flex: 1, child: _cell(title: record.payType.toString())),
@@ -91,23 +95,56 @@ class _RecordPageState extends State<RecordPage> {
             flex: 1,
             child: _cell(title: TimeUtil().transMillToDate(millisconds: record.date.toInt(), format: 'yyyy-MM-dd'))),
         Expanded(flex: 1, child: _cell(title: record.remark.toString())),
+        Expanded(
+            flex: 1,
+            child: _cell(
+              title: "编辑",
+              isEdit: true,
+              onClick: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        title: const Text("编辑"),
+                        content: SizedBox(
+                            width: MediaQuery.of(context).size.width - 200,
+                            height: MediaQuery.of(context).size.height - 200,
+                            child: EditPage(record: record)),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, '取消'),
+                            child: const Text('取消'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.pop(context, '确定');
+                              logic.updateRecord();
+                            },
+                            child: const Text('确定'),
+                          ),
+                        ],
+                      )),
+            ))
       ],
     );
   }
 
-  Widget _cell({required String title, bool isTitle = false}) {
-    return Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-        border: isTitle ? Border.all(color: Colors.black, width: 0.1) : const Border(bottom: BorderSide(color: Color(0XFFDEDEDE)))),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: isTitle ? 14 : 12, color: Colors.black),
-          ),
-        ));
+  Widget _cell({required String title, bool isTitle = false, bool isEdit = false, VoidCallback? onClick}) {
+    return GestureDetector(
+      onTap: onClick,
+      child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              border: isTitle
+                  ? Border.all(color: Colors.black, width: 0.1)
+                  : const Border(bottom: BorderSide(color: Color(0XFFDEDEDE)))),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: isTitle ? 14 : 12, color: isEdit ? Colors.blue : Colors.black),
+            ),
+          )),
+    );
   }
 
   @override

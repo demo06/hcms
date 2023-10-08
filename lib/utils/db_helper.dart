@@ -39,7 +39,7 @@ class DB {
       ),
     );
     _recordDao = RecordDao(_db!);
-    print('初始化数据库....');
+    // print('初始化数据库....');
   }
 
   static Future<String> getDbDirPath() async {
@@ -51,7 +51,7 @@ class DB {
     if (!result.existsSync()) {
       result.createSync(recursive: true);
     }
-    print('====数据库所在文件夹: $dirPath=======');
+    // print('====数据库所在文件夹: $dirPath=======');
     return dirPath;
   }
 

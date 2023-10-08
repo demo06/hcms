@@ -28,7 +28,6 @@ class RecordDao {
   }
 
   Future<List<Map<String, dynamic>>> queryAll() async {
-    //插入方法
     return await db.rawQuery("SELECT * "
         "FROM Record");
   }
@@ -40,5 +39,26 @@ class RecordDao {
         "FROM Record "
         "WHERE date = ? ORDER BY id DESc",
         [date]);
+  }
+
+  Future<int> update(RoomRecord record) async {
+    //插入方法
+    String updateSql = //插入数据
+        "UPDATE Record SET roomNo=? , roomType=? ,payType=?, currencyUnit=?,livingDays=?,price=?,amountPrice=?,transType=?,realPayAmount=?,remark=? "
+        "WHERE id = ?";
+
+    return await db.rawUpdate(updateSql, [
+      record.roomNo,
+      record.roomType,
+      record.payType,
+      record.currencyUnit,
+      record.livingDays,
+      record.price,
+      record.amountPrice,
+      record.transType,
+      record.realPayAmount,
+      record.remark,
+      record.id
+    ]);
   }
 }

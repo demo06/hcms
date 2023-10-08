@@ -6,7 +6,7 @@ class WindowsSetting {
     WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = const WindowOptions(
-      size: Size(1200, 800),
+      size: Size(1300, 800),
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
