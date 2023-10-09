@@ -203,8 +203,11 @@ class _CheckInPageState extends State<CheckInPage> {
                       child: TextField(
                           decoration: const InputDecoration(hintText: "请输入收款金额"),
                           controller: state.realIncomeController,
+                          keyboardType: TextInputType.number,
                           onChanged: (value) {
-                            state.realIncomeController.text = value;
+                            if (value.isNum) {
+                              state.realIncomeController.text = value;
+                            }
                           }),
                     )),
                     const Expanded(flex: 1, child: Text("备注:")),

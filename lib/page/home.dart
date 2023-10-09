@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hcms/dao/record_dao.dart';
 import 'package:hcms/model/record.dart';
+import 'package:hcms/page/about/about_view.dart';
 import 'package:hcms/page/checkin/checkin_view.dart';
 import 'package:hcms/page/record/record_view.dart';
 import 'package:hcms/utils/db_helper.dart';
@@ -22,12 +23,10 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   List<Navigation> navigator = [
     Navigation("收银录入", Icons.monetization_on_rounded, true),
     Navigation("入住记录", Icons.receipt_long_rounded, false),
+    Navigation("关于我", Icons.contact_page_rounded, false),
   ];
 
-  List<Widget> page = [
-    const CheckInPage(),
-    const RecordPage(),
-  ];
+  List<Widget> page = [const CheckInPage(), const RecordPage(), const AboutMePage()];
 
   var data = RoomRecord(
       roomNo: 301,
