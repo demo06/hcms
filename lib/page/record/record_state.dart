@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hcms/model/record.dart';
 import 'package:hcms/model/room.dart';
 import 'package:hcms/utils/db_helper.dart';
+import 'package:hcms/utils/pinyin_controller.dart';
 
 import '../../dao/record_dao.dart';
 
@@ -17,14 +18,15 @@ class RecordState {
   late List<int> kzPrice;
 
   late TextEditingController priceController;
-  late TextEditingController remarkController;
+  late PinYinTextEditController remarkController;
   late TextEditingController realIncomeController;
-
   late RecordDao recordDao = DB.instance.recordDao;
+
+  var lastInput = "";
 
   RecordState() {
     priceController = TextEditingController();
-    remarkController = TextEditingController();
+    remarkController = PinYinTextEditController();
     realIncomeController = TextEditingController();
 
     record = RoomRecord(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hcms/model/record.dart';
+import 'package:hcms/utils/db_helper.dart';
 
 import 'checkin_state.dart';
 
@@ -9,6 +11,11 @@ class CheckInLogic extends GetxController {
   @override
   void onInit() {
     changedPrice();
+    initInputValue();
+    super.onInit();
+  }
+
+  void initInputValue() {
     state.realIncomeController.text = "0";
     state.lowKzController.text = state.kzPrice[0].toString();
     state.midKzController.text = state.kzPrice[1].toString();
@@ -19,7 +26,6 @@ class CheckInLogic extends GetxController {
     state.lowRmbController.text = state.rmbPrice[0].toString();
     state.midRmbController.text = state.rmbPrice[1].toString();
     state.highRmbController.text = state.rmbPrice[2].toString();
-    super.onInit();
   }
 
   void changedPrice() {
@@ -112,5 +118,9 @@ class CheckInLogic extends GetxController {
     state.amount = 0;
     changedPrice();
     update();
+  }
+
+  void insertRecord() {
+    DB.instance.recordDao.insert(RoomRecord(remark: state.remarkController.text));
   }
 }

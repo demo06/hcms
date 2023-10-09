@@ -12,12 +12,27 @@ class RecordLogic extends GetxController {
     super.onInit();
   }
 
+  void initData(RoomRecord record) {
+    state.record = record;
+    state.priceController.text = record.price.toString();
+    state.realIncomeController.text = record.realPayAmount.toString();
+    state.remarkController.text = record.remark.toString();
+  }
+
+  void addRemarkInputListener() {
+    state.remarkController.addListener(() {
+      if (state.lastInput != state.remarkController.completeText) {
+        state.lastInput = state.remarkController.completeText;
+        changeRemark(state.lastInput);
+      }
+    });
+  }
+
   void refreshList({int index = 0}) async {
     var recordList = await state.recordDao.queryAll();
     state.recordList = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     update();
   }
-
 
   void changePayType(String payType) {
     state.record = state.record.copyWith(payType: payType);

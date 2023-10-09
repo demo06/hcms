@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/model/record.dart';
-import 'package:hcms/page/edit/edit_view.dart';
 import 'package:hcms/utils/time_util.dart';
 import 'package:hcms/widget/radio_button.dart';
 
+import '../edit/eidt_dialog.dart';
 import 'record_logic.dart';
 
 class RecordPage extends StatefulWidget {
@@ -100,28 +100,8 @@ class _RecordPageState extends State<RecordPage> {
             child: _cell(
               title: "编辑",
               isEdit: true,
-              onClick: () => showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                        title: const Text("编辑"),
-                        content: SizedBox(
-                            width: MediaQuery.of(context).size.width - 200,
-                            height: MediaQuery.of(context).size.height - 200,
-                            child: EditPage(record: record)),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, '取消'),
-                            child: const Text('取消'),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              Navigator.pop(context, '确定');
-                              logic.updateRecord(state.record);
-                            },
-                            child: const Text('确定'),
-                          ),
-                        ],
-                      )),
+              onClick: () =>
+                  showDialog<String>(context: context, builder: (BuildContext context) => EditDialog(record: record)),
             ))
       ],
     );

@@ -14,6 +14,18 @@ class CheckInPage extends StatefulWidget {
 class _CheckInPageState extends State<CheckInPage> {
   final logic = Get.put(CheckInLogic());
   final state = Get.find<CheckInLogic>().state;
+  var lastInput = "";
+
+  @override
+  void initState() {
+    super.initState();
+    state.remarkController.addListener(() {
+      if (lastInput != state.remarkController.completeText) {
+        lastInput = state.remarkController.completeText;
+        state.remarkController.text = lastInput;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,8 +212,9 @@ class _CheckInPageState extends State<CheckInPage> {
                       child: TextField(
                           decoration: const InputDecoration(hintText: "请输入备注"),
                           controller: state.remarkController,
+                          keyboardType: TextInputType.text,
                           onChanged: (value) {
-                            state.remarkController.text = value;
+                            // state.remarkController.text = value;
                           }),
                     )),
                   ],
@@ -248,6 +261,7 @@ class _CheckInPageState extends State<CheckInPage> {
                               title: "录入系统",
                               type: "录入系统",
                               onPressed: () {
+                                logic.insertRecord();
                                 logic.showToast(context, "添加成功");
                               })),
                     ],

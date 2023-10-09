@@ -29,7 +29,7 @@ class RecordDao {
 
   Future<List<Map<String, dynamic>>> queryAll() async {
     return await db.rawQuery("SELECT * "
-        "FROM Record");
+        "FROM Record ORDER BY id DESC");
   }
 
   //根据 id 查询组件 node
