@@ -97,11 +97,40 @@ class _RecordPageState extends State<RecordPage> {
         Expanded(flex: 1, child: _cell(title: record.remark.toString())),
         Expanded(
             flex: 1,
-            child: _cell(
-              title: "编辑",
-              isEdit: true,
-              onClick: () =>
-                  showDialog<String>(context: context, builder: (BuildContext context) => EditDialog(record: record)),
+            child: Row(
+              children: [
+                Expanded(
+                    child: _cell(
+                  title: "编辑",
+                  isEdit: true,
+                  onClick: () => showDialog<String>(
+                      context: context, builder: (BuildContext context) => EditDialog(record: record)),
+                )),
+                Expanded(
+                    child: _cell(
+                  title: "删除",
+                  isEdit: true,
+                  onClick: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            title: const Text("删除记录"),
+                            content: const Text("你确认删除该条记录吗?"),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, '取消'),
+                                child: const Text('取消'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.pop(context, '确定');
+                                  logic.delRecord(record.id.toInt());
+                                },
+                                child: const Text('确定'),
+                              ),
+                            ],
+                          )),
+                ))
+              ],
             ))
       ],
     );

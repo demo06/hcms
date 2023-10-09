@@ -61,4 +61,9 @@ class RecordDao {
       record.id
     ]);
   }
+
+  Future<int> delete(int id) async {
+    String deleteSql = "DELETE FROM Record WHERE id = ?";
+    return await db.rawDelete(deleteSql, [id]);
+  }
 }
