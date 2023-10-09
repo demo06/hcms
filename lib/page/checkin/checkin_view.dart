@@ -22,7 +22,7 @@ class _CheckInPageState extends State<CheckInPage> {
     state.remarkController.addListener(() {
       if (lastInput != state.remarkController.completeText) {
         lastInput = state.remarkController.completeText;
-        state.remarkController.text = lastInput;
+        logic.changeRemark(lastInput);
       }
     });
   }
@@ -50,14 +50,14 @@ class _CheckInPageState extends State<CheckInPage> {
                     Expanded(
                         child: RadioButton(
                             title: "实收",
-                            type: state.payType,
+                            type: state.record.payType,
                             onPressed: () {
                               logic.changedEntryType("实收");
                             })),
                     Expanded(
                         child: RadioButton(
                             title: "预收",
-                            type: state.payType,
+                            type: state.record.payType,
                             onPressed: () {
                               logic.changedEntryType("预收");
                             })),
@@ -70,21 +70,21 @@ class _CheckInPageState extends State<CheckInPage> {
                     Expanded(
                         child: RadioButton(
                             title: "宽扎",
-                            type: state.currencyUnit,
+                            type: state.record.currencyUnit,
                             onPressed: () {
                               logic.changedCurrencyUnit("宽扎");
                             })),
                     Expanded(
                         child: RadioButton(
                             title: "人民币",
-                            type: state.currencyUnit,
+                            type: state.record.currencyUnit,
                             onPressed: () {
                               logic.changedCurrencyUnit("人民币");
                             })),
                     Expanded(
                         child: RadioButton(
                             title: "美元",
-                            type: state.currencyUnit,
+                            type: state.record.currencyUnit,
                             onPressed: () {
                               logic.changedCurrencyUnit("美元");
                             })),
@@ -100,28 +100,28 @@ class _CheckInPageState extends State<CheckInPage> {
                           Expanded(
                               child: RadioButton(
                                   title: "现金",
-                                  type: state.transType,
+                                  type: state.record.transType,
                                   onPressed: () {
                                     logic.changedPayType("现金");
                                   })),
                           Expanded(
                               child: RadioButton(
                                   title: "微信转账",
-                                  type: state.transType,
+                                  type: state.record.transType,
                                   onPressed: () {
                                     logic.changedPayType("微信转账");
                                   })),
                           Expanded(
                               child: RadioButton(
                                   title: "挂账",
-                                  type: state.transType,
+                                  type: state.record.transType,
                                   onPressed: () {
                                     logic.changedPayType("挂账");
                                   })),
                           Expanded(
                               child: RadioButton(
                                   title: "刷卡",
-                                  type: state.transType,
+                                  type: state.record.transType,
                                   onPressed: () {
                                     logic.changedPayType("刷卡");
                                   })),
@@ -135,8 +135,10 @@ class _CheckInPageState extends State<CheckInPage> {
                     const Expanded(flex: 1, child: Text("入住天数:")),
                     Expanded(
                         flex: 1,
-                        child:
-                            NumberView(number: state.living, addition: logic.addition, subtraction: logic.subtraction)),
+                        child: NumberView(
+                            number: state.record.livingDays.toInt(),
+                            addition: logic.addition,
+                            subtraction: logic.subtraction)),
                     const Expanded(flex: 1, child: Text("设置单价:")),
                     Expanded(
                         flex: 1,
@@ -179,7 +181,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: Text(
-                        "${state.price}",
+                        "${state.record.price}",
                         style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
                       ),
                     )),
@@ -187,7 +189,7 @@ class _CheckInPageState extends State<CheckInPage> {
                     Expanded(
                         flex: 1,
                         child: Text(
-                          "${state.amount}",
+                          "${state.record.amountPrice}",
                           style: const TextStyle(color: Colors.red, fontSize: 24, fontWeight: FontWeight.w700),
                         ))
                   ],
@@ -212,10 +214,7 @@ class _CheckInPageState extends State<CheckInPage> {
                       child: TextField(
                           decoration: const InputDecoration(hintText: "请输入备注"),
                           controller: state.remarkController,
-                          keyboardType: TextInputType.text,
-                          onChanged: (value) {
-                            // state.remarkController.text = value;
-                          }),
+                          keyboardType: TextInputType.text),
                     )),
                   ],
                 ),
@@ -235,7 +234,7 @@ class _CheckInPageState extends State<CheckInPage> {
                       itemBuilder: (context, index) {
                         return RadioButton(
                             title: state.rooms[index].no.toString(),
-                            type: state.defaultLiving,
+                            type: state.record.roomNo.toString(),
                             onPressed: () {
                               logic.chooseRoom(index);
                             });
@@ -261,8 +260,7 @@ class _CheckInPageState extends State<CheckInPage> {
                               title: "录入系统",
                               type: "录入系统",
                               onPressed: () {
-                                logic.insertRecord();
-                                logic.showToast(context, "添加成功");
+                                logic.insertRecord(context);
                               })),
                     ],
                   ),

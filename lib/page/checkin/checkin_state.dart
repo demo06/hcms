@@ -1,37 +1,45 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:hcms/model/record.dart';
 import 'package:hcms/model/room.dart';
+import 'package:hcms/utils/pinyin_controller.dart';
 
 class CheckInState {
-  late TextEditingController remarkController;
-  late TextEditingController realIncomeController;
+  final StreamController<String> textStream = StreamController.broadcast();
 
-  late TextEditingController lowKzController;
+  late PinYinTextEditController remarkController;
+  late PinYinTextEditController realIncomeController;
 
-  late TextEditingController midKzController;
+  late PinYinTextEditController lowKzController;
 
-  late TextEditingController highKzController;
+  late PinYinTextEditController midKzController;
 
-  late TextEditingController lowDollarController;
+  late PinYinTextEditController highKzController;
 
-  late TextEditingController midDollarController;
+  late PinYinTextEditController lowDollarController;
 
-  late TextEditingController highDollarController;
+  late PinYinTextEditController midDollarController;
 
-  late TextEditingController lowRmbController;
+  late PinYinTextEditController highDollarController;
 
-  late TextEditingController midRmbController;
+  late PinYinTextEditController lowRmbController;
 
-  late TextEditingController highRmbController;
+  late PinYinTextEditController midRmbController;
 
-  late String payType; //1.实收  2.预收
-  late String currencyUnit; //1.宽扎 2.人民币 3.美元
-  late String transType; //转账类型 1.现金 2.微信转账 3.挂账 4.刷卡
-  late int living; //入住天数
-  late String defaultLiving;
+  late PinYinTextEditController highRmbController;
 
-  late int amount; //总价
-  late int price; //单价
-  late String realIncome; //实收
+  // late String payType; //1.实收  2.预收
+  // late String currencyUnit; //1.宽扎 2.人民币 3.美元
+  // late String transType; //转账类型 1.现金 2.微信转账 3.挂账 4.刷卡
+  // late int living; //入住天数
+  // late String defaultLiving;
+
+  // late int amount; //总价
+  // late int price; //单价
+  // late String realIncome; //实收
+
+  late RoomRecord record;
 
   late List<Room> rooms;
 
@@ -41,26 +49,39 @@ class CheckInState {
   late List<int> kzPrice;
 
   CheckInState() {
-    remarkController = TextEditingController();
-    realIncomeController = TextEditingController();
-    lowKzController = TextEditingController();
-    midKzController = TextEditingController();
-    highKzController = TextEditingController();
-    lowDollarController = TextEditingController();
-    midDollarController = TextEditingController();
-    highDollarController = TextEditingController();
-    lowRmbController = TextEditingController();
-    midRmbController = TextEditingController();
-    highRmbController = TextEditingController();
+    record = RoomRecord(
+        roomNo: 201,
+        roomType: "宾馆",
+        payType: "实收",
+        currencyUnit: "宽扎",
+        livingDays: 1,
+        price: 43000,
+        amountPrice: 5000,
+        transType: "现金",
+        realPayAmount: 43000,
+        date: DateTime.now().millisecondsSinceEpoch,
+        remark: "");
 
-    payType = "实收"; //1.实收  2.预收
-    currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
-    transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
-    living = 1; //入住天数
-    defaultLiving = "201";
-    amount = 0; //总价
-    price = 0; //单价
-    realIncome = "0"; //实收
+    remarkController = PinYinTextEditController();
+    realIncomeController = PinYinTextEditController();
+    lowKzController = PinYinTextEditController();
+    midKzController = PinYinTextEditController();
+    highKzController = PinYinTextEditController();
+    lowDollarController = PinYinTextEditController();
+    midDollarController = PinYinTextEditController();
+    highDollarController = PinYinTextEditController();
+    lowRmbController = PinYinTextEditController();
+    midRmbController = PinYinTextEditController();
+    highRmbController = PinYinTextEditController();
+
+    // payType = "实收"; //1.实收  2.预收
+    // currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
+    // transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
+    // living = 1; //入住天数
+    // defaultLiving = "201";
+    // amount = 0; //总价
+    // price = 0; //单价
+    // realIncome = "0"; //实收
 
     rooms = [
       Room(201, 1, "宾馆"),

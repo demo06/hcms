@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/model/record.dart';
 import 'package:hcms/utils/db_helper.dart';
-
 import 'checkin_state.dart';
 
 class CheckInLogic extends GetxController {
@@ -29,43 +28,44 @@ class CheckInLogic extends GetxController {
   }
 
   void changedPrice() {
+    var price = 0;
     for (var element in state.rooms) {
-      if (element.no.toString() == state.defaultLiving) {
-        switch (state.currencyUnit) {
+      if (element.no == state.record.roomNo) {
+        switch (state.record.currencyUnit) {
           case "宽扎":
-            state.price = state.kzPrice[element.level];
+            price = state.kzPrice[element.level];
             break;
           case "人民币":
-            state.price = state.rmbPrice[element.level];
+            price = state.rmbPrice[element.level];
             break;
           case "美元":
-            state.price = state.dollarPrice[element.level];
+            price = state.dollarPrice[element.level];
             break;
         }
       }
     }
-    state.amount = state.price * state.living;
+    state.record = state.record.copyWith(price: price, amountPrice: price * state.record.livingDays);
   }
 
   void changedEntryType(value) {
-    state.payType = value;
+    state.record = state.record.copyWith(payType: value);
     update();
   }
 
   void changedCurrencyUnit(value) {
-    state.currencyUnit = value;
+    state.record = state.record.copyWith(currencyUnit: value);
     changedPrice();
     update();
   }
 
   void changedPayType(value) {
-    state.transType = value;
+    state.record = state.record.copyWith(transType: value);
     update();
   }
 
   void addition() {
-    state.living = state.living + 1;
-    state.amount = state.price * state.living;
+    var living = state.record.livingDays + 1;
+    state.record = state.record.copyWith(amountPrice: state.record.price * living, livingDays: living);
     update();
   }
 
@@ -84,15 +84,15 @@ class CheckInLogic extends GetxController {
   }
 
   void subtraction() {
-    if (state.living > 1) {
-      state.living = state.living - 1;
-      state.amount = state.price * state.living;
+    if (state.record.livingDays > 1) {
+      var living = state.record.livingDays - 1;
+      state.record = state.record.copyWith(amountPrice: state.record.price * living, livingDays: living);
     }
     update();
   }
 
   void chooseRoom(int index) {
-    state.defaultLiving = state.rooms[index].no.toString();
+    state.record = state.record.copyWith(roomNo: state.rooms[index].no);
     changedPrice();
     update();
   }
@@ -105,22 +105,39 @@ class CheckInLogic extends GetxController {
   }
 
   bool checkRealIncome() {
-    state.realIncome = state.realIncomeController.text;
-    return state.realIncome.isNum;
+    if (state.realIncomeController.text.isNum) {
+      var income = int.parse(state.realIncomeController.text);
+      state.record = state.record.copyWith(realPayAmount: income);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  void resetDefaultValue() {
-    state.payType = "实收"; //1.实收 2.预收
-    state.currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
-    state.transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
-    state.living = 1; //入住天数
-    state.defaultLiving = "201";
-    state.amount = 0;
-    changedPrice();
+  void changeRemark(String remark) {
+    state.remarkController.text = remark;
+    state.record = state.record.copyWith(remark: remark);
     update();
   }
 
-  void insertRecord() {
-    DB.instance.recordDao.insert(RoomRecord(remark: state.remarkController.text));
+  void resetDefaultValue() {
+    state.record = RoomRecord(
+        roomNo: 201,
+        roomType: "宾馆",
+        payType: "实收",
+        currencyUnit: "宽扎",
+        livingDays: 1,
+        price: 43000,
+        amountPrice: 43000,
+        transType: "现金",
+        realPayAmount: 43000,
+        date: DateTime.now().millisecondsSinceEpoch,
+        remark: "");
+    update();
+  }
+
+  void insertRecord(BuildContext context) {
+    DB.instance.recordDao.insert(state.record);
+    showToast(context, "录入成功");
   }
 }
