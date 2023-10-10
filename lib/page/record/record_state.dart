@@ -23,6 +23,8 @@ class RecordState {
   late RecordDao recordDao = DB.instance.recordDao;
 
   var lastInput = "";
+  var count = 0;
+  var index = 1;
 
   RecordState() {
     priceController = TextEditingController();

@@ -12,11 +12,12 @@ class RecordLogic extends GetxController {
     super.onInit();
   }
 
-  void initData(RoomRecord record) {
+  void initData(RoomRecord record) async {
     state.record = record;
     state.priceController.text = record.price.toString();
     state.realIncomeController.text = record.realPayAmount.toString();
     state.remarkController.text = record.remark.toString();
+    state.count = await queryAllCount();
   }
 
   void addRemarkInputListener() {
@@ -88,6 +89,12 @@ class RecordLogic extends GetxController {
     await state.recordDao.update(record);
     refreshList();
     update();
+  }
+
+  Future<int> queryAllCount() async {
+    var list = await state.recordDao.count();
+    print(list.length);
+    return list.length;
   }
 
   void delRecord(int id) async {

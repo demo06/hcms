@@ -26,7 +26,9 @@ class RecordDao {
           data.remark
         ]));
   }
-
+  Future<List<Map<String, dynamic>>> count() async {
+    return await db.rawQuery("SELECT COUNT(*) FROM Record;");
+  }
   Future<List<Map<String, dynamic>>> queryAll() async {
     return await db.rawQuery("SELECT * "
         "FROM Record ORDER BY id DESC");

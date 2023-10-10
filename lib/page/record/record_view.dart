@@ -71,6 +71,42 @@ class _RecordPageState extends State<RecordPage> {
                       return _row(state.recordList[index]);
                     }),
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        side: const BorderSide(color: Colors.red),
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Icon(
+                        Icons.navigate_before_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 26, right: 26),
+                      child: Text("${state.index}/${state.count}", style: const TextStyle(color: Colors.grey)),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                        side: const BorderSide(color: Colors.red),
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Icon(
+                        Icons.navigate_next_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         );
