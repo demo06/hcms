@@ -448,9 +448,4 @@ class _CheckInPageState extends State<CheckInPage> {
         ));
   }
 
-  @override
-  void dispose() {
-    Get.delete<CheckInLogic>();
-    super.dispose();
-  }
 }
