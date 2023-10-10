@@ -1,3 +1,4 @@
+import 'package:hcms/global/constants.dart';
 import 'package:hcms/model/record.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -26,12 +27,21 @@ class RecordDao {
           data.remark
         ]));
   }
-  Future<List<Map<String, dynamic>>> count() async {
+
+  Future<List<Map<String, Object?>>> count() async {
     return await db.rawQuery("SELECT COUNT(*) FROM Record;");
   }
+
   Future<List<Map<String, dynamic>>> queryAll() async {
     return await db.rawQuery("SELECT * "
         "FROM Record ORDER BY id DESC");
+  }
+
+  Future<List<Map<String, dynamic>>> getTwentyItems(int pageNumber) async {
+    int offset = (pageNumber - 1) * Constants.pageSize;
+    List<Map<String, dynamic>> result =
+        await db.query('record', limit: Constants.pageSize, offset: offset, orderBy: 'id DESC');
+    return result;
   }
 
   //根据 id 查询组件 node

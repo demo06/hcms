@@ -77,7 +77,9 @@ class _RecordPageState extends State<RecordPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        logic.lastPage();
+                      },
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                         side: const BorderSide(color: Colors.red),
@@ -93,7 +95,9 @@ class _RecordPageState extends State<RecordPage> {
                       child: Text("${state.index}/${state.count}", style: const TextStyle(color: Colors.grey)),
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        logic.nextPage();
+                      },
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                         side: const BorderSide(color: Colors.red),

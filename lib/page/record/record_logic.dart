@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:hcms/global/constants.dart';
 import 'package:hcms/model/record.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'record_state.dart';
 
@@ -7,7 +9,7 @@ class RecordLogic extends GetxController {
   final RecordState state = RecordState();
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     refreshList();
     super.onInit();
   }
@@ -17,7 +19,6 @@ class RecordLogic extends GetxController {
     state.priceController.text = record.price.toString();
     state.realIncomeController.text = record.realPayAmount.toString();
     state.remarkController.text = record.remark.toString();
-    state.count = await queryAllCount();
   }
 
   void addRemarkInputListener() {
@@ -29,8 +30,9 @@ class RecordLogic extends GetxController {
     });
   }
 
-  void refreshList({int index = 0}) async {
-    var recordList = await state.recordDao.queryAll();
+  void refreshList({int index = 1}) async {
+    var recordList = await state.recordDao.getTwentyItems(index);
+    state.count = await queryAllCount();
     state.recordList = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     update();
   }
@@ -92,14 +94,32 @@ class RecordLogic extends GetxController {
   }
 
   Future<int> queryAllCount() async {
-    var list = await state.recordDao.count();
-    print(list.length);
-    return list.length;
+    var count = Sqflite.firstIntValue(await state.recordDao.count()) ?? 1;
+    return (count + Constants.pageSize - 1) ~/ Constants.pageSize;
   }
 
   void delRecord(int id) async {
     await state.recordDao.delete(id);
     refreshList();
     update();
+  }
+
+  void nextPage() async {
+    var count = await queryAllCount();
+    if (state.index < count) {
+      state.index = state.index + 1;
+      var recordList = await state.recordDao.getTwentyItems(state.index);
+      state.recordList = recordList.map((e) => RoomRecord.fromJson(e)).toList();
+      update();
+    }
+  }
+
+  void lastPage() async {
+    if (state.index > 1) {
+      state.index = state.index - 1;
+      var recordList = await state.recordDao.getTwentyItems(state.index);
+      state.recordList = recordList.map((e) => RoomRecord.fromJson(e)).toList();
+      update();
+    }
   }
 }
