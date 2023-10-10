@@ -19,66 +19,60 @@ class _AboutMePageState extends State<AboutMePage> {
     return GetBuilder<AboutLogic>(
       assignId: true,
       builder: (logic) {
-        return Container(
-          child: const Padding(
-            padding: EdgeInsets.only(top: 60.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 100,
-                            backgroundImage: AssetImage('assets/images/author.jpg'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: Column(
+        return const Padding(
+          padding: EdgeInsets.only(top: 60.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 12.0),
-                          child: Text(
-                            "WenBin",
-                            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 12.0),
-                          child: Text(
-                            "高级软件开发工程师",
-                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 12.0),
-                          child: Expanded(
-                            child: Text("微信:demo06", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24)),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 12.0),
-                          child: Expanded(
-                              child: Text("邮箱:wenbin@buildapp.fun",
-                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24))),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 12.0),
-                          child: Expanded(
-                              child:
-                                  Text("手机号:15639700383", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24))),
+                        CircleAvatar(
+                          radius: 100,
+                          backgroundImage: AssetImage('assets/images/author.jpg'),
                         ),
                       ],
-                    ))
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 80.0),
-                  child: Text(
-                    '''
+                    ),
+                  ),
+                  Expanded(
+                      child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child: Text(
+                          "WenBin",
+                          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child: Text(
+                          "高级软件开发工程师",
+                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child: Text("微信:demo06", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child: Text("邮箱:wenbin@buildapp.fun",
+                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child: Text("手机号:15639700383", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24)),
+                      ),
+                    ],
+                  ))
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 80.0),
+                child: Text(
+                  '''
 专注于创造出色的数字体验。
 为您带来强大、创新和高度定制化的软件解决方案。
 我们的软件开发服务不仅仅是编写代码，
@@ -86,22 +80,15 @@ class _AboutMePageState extends State<AboutMePage> {
 无论您是初创企业还是大型企业，我们都能够为您提供卓越的软件开发服务。
 让我们一起合作，将您的创意变成现实，实现业务的成功和增长。
 联系我们，让我们开始共同打造卓越的软件解决方案！
-                    ''',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, letterSpacing: 3, height: 2),
-                  ),
-                )
-              ],
-            ),
+                  ''',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, letterSpacing: 3, height: 2),
+                ),
+              )
+            ],
           ),
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    Get.delete<AboutLogic>();
-    super.dispose();
   }
 }
