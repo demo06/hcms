@@ -27,17 +27,129 @@ class _RecordPageState extends State<RecordPage> {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              RadioButton(
-                title: "选择时间",
-                type: "选择时间",
-                onPressed: () async {
-                  var result = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100));
-                  print(result.toString());
-                },
+              const Padding(
+                padding: EdgeInsets.only(bottom: 18.0),
+                child: Text(
+                  "入住信息导出",
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 24),
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: RadioButton(
+                      title: "宾馆当日入住率",
+                      type: "宾馆当日入住率",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                        print(result.toString());
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioButton(
+                      title: "宾馆当月入住率",
+                      type: "宾馆当月入住率",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                        print(result.toString());
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioButton(
+                      title: "公寓当日入住率",
+                      type: "公寓当日入住率",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                        print(result.toString());
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioButton(
+                      title: "公寓当月入住率",
+                      type: "公寓当月入住率",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                        print(result.toString());
+                      },
+                    ),
+                  ),
+                  // Expanded(
+                  //   child: RadioButton(
+                  //     title: "选择时间",
+                  //     type: "选择时间",
+                  //     onPressed: () async {
+                  //       var result = await showDatePicker(
+                  //           context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                  //       print(result.toString());
+                  //     },
+                  //   ),
+                  // ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: RadioButton(
+                      title: "当日汇总",
+                      type: "当日汇总",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                        print(result.toString());
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioButton(
+                      title: "当月汇总",
+                      type: "当月汇总",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                        print(result.toString());
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioButton(
+                      title: "当日基本数据",
+                      type: "当日基本数据",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                        print(result.toString());
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: RadioButton(
+                      title: "当月基本数据",
+                      type: "当月基本数据",
+                      onPressed: () async {
+                        var result = await showDatePicker(
+                            context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                      },
+                    ),
+                  ),
+                  // Expanded(
+                  //   child: RadioButton(
+                  //     title: "选择时间",
+                  //     type: "选择时间",
+                  //     onPressed: () async {
+                  //       var result = await showDatePicker(
+                  //           context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
+                  //       print(result.toString());
+                  //     },
+                  //   ),
+                  // ),
+                ],
               ),
               Container(
                 color: const Color(0XFFE4E4E4),
@@ -63,7 +175,7 @@ class _RecordPageState extends State<RecordPage> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height - 240,
+                height: MediaQuery.of(context).size.height - 342,
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.recordList.length,
@@ -131,9 +243,7 @@ class _RecordPageState extends State<RecordPage> {
         Expanded(flex: 1, child: _cell(title: record.amountPrice.toString())),
         Expanded(flex: 1, child: _cell(title: record.transType.toString())),
         Expanded(flex: 1, child: _cell(title: record.realPayAmount.toString())),
-        Expanded(
-            flex: 1,
-            child: _cell(title: TimeUtil().transMillToDate(millisconds: record.date.toInt(), format: 'yyyy-MM-dd'))),
+        Expanded(flex: 1, child: _cell(title: TimeUtil().transMillToDate(millisconds: record.date.toInt(), format: 'yyyy-MM-dd'))),
         Expanded(flex: 1, child: _cell(title: record.remark.toString())),
         Expanded(
             flex: 1,
@@ -143,8 +253,7 @@ class _RecordPageState extends State<RecordPage> {
                     child: _cell(
                   title: "编辑",
                   isEdit: true,
-                  onClick: () => showDialog<String>(
-                      context: context, builder: (BuildContext context) => EditDialog(record: record)),
+                  onClick: () => showDialog<String>(context: context, builder: (BuildContext context) => EditDialog(record: record)),
                 )),
                 Expanded(
                     child: _cell(
@@ -182,9 +291,7 @@ class _RecordPageState extends State<RecordPage> {
       child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              border: isTitle
-                  ? Border.all(color: Colors.black, width: 0.1)
-                  : const Border(bottom: BorderSide(color: Color(0XFFDEDEDE)))),
+              border: isTitle ? Border.all(color: Colors.black, width: 0.1) : const Border(bottom: BorderSide(color: Color(0XFFDEDEDE)))),
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: Text(
