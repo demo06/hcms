@@ -150,8 +150,11 @@ class CheckInLogic extends GetxController {
     var currentDate = DateTime.now().millisecondsSinceEpoch;
     if (state.record.livingDays > 1) {
       for (int i = 0; i < state.record.livingDays; i++) {
-        state.record = state.record.copyWith(date: currentDate);
-        DB.instance.recordDao.insert(state.record);
+        DB.instance.recordDao.insert(state.record.copyWith(
+            date: currentDate,
+            livingDays: 1,
+            amountPrice: state.record.price,
+            realPayAmount: 0));
         currentDate += 86400000;
       }
       state.record = state.record.copyWith(date: currentDate);
