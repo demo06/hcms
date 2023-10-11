@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/page/checkin/checkin_logic.dart';
@@ -206,7 +208,7 @@ class _CheckInPageState extends State<CheckInPage> {
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
                             if (value.isNum) {
-                              state.realIncomeController.text = value;
+                              logic.changeRealIncome(int.parse(value));
                             }
                           }),
                     )),

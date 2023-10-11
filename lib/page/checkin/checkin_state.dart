@@ -56,9 +56,9 @@ class CheckInState {
         currencyUnit: "宽扎",
         livingDays: 1,
         price: 43000,
-        amountPrice: 5000,
+        amountPrice: 43000,
         transType: "现金",
-        realPayAmount: 43000,
+        realPayAmount: 0,
         date: DateTime.now().millisecondsSinceEpoch,
         remark: "");
 

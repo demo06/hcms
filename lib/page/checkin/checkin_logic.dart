@@ -63,6 +63,12 @@ class CheckInLogic extends GetxController {
     update();
   }
 
+  void changeRealIncome(int value) {
+    state.realIncomeController.text = value.toString();
+    state.record = state.record.copyWith(realPayAmount: value);
+    update();
+  }
+
   void addition() {
     var living = state.record.livingDays + 1;
     state.record = state.record.copyWith(amountPrice: state.record.price * living, livingDays: living);
@@ -121,6 +127,10 @@ class CheckInLogic extends GetxController {
   }
 
   void resetDefaultValue() {
+    state.dollarPrice = [39, 53, 72];
+    state.rmbPrice = [280, 380, 518];
+    state.kzPrice = [32000, 43000, 59000];
+    initInputValue();
     state.record = RoomRecord(
         roomNo: 201,
         roomType: "宾馆",
@@ -130,14 +140,24 @@ class CheckInLogic extends GetxController {
         price: 43000,
         amountPrice: 43000,
         transType: "现金",
-        realPayAmount: 43000,
+        realPayAmount: 0,
         date: DateTime.now().millisecondsSinceEpoch,
         remark: "");
     update();
   }
 
   void insertRecord(BuildContext context) {
-    DB.instance.recordDao.insert(state.record);
+    var currentDate = DateTime.now().millisecondsSinceEpoch;
+    if (state.record.livingDays > 1) {
+      for (int i = 0; i < state.record.livingDays; i++) {
+        state.record = state.record.copyWith(date: currentDate);
+        DB.instance.recordDao.insert(state.record);
+        currentDate += 86400000;
+      }
+      state.record = state.record.copyWith(date: currentDate);
+    } else {
+      DB.instance.recordDao.insert(state.record);
+    }
     showToast(context, "录入成功");
   }
 }
