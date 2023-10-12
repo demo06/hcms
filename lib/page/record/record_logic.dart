@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:hcms/global/constants.dart';
 import 'package:hcms/model/record.dart';
+import 'package:hcms/utils/db_helper.dart';
+import 'package:hcms/utils/excel_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'record_state.dart';
@@ -19,6 +21,14 @@ class RecordLogic extends GetxController {
     state.priceController.text = record.price.toString();
     state.realIncomeController.text = record.realPayAmount.toString();
     state.remarkController.text = record.remark.toString();
+  }
+
+  void exportDaily() async {
+    List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
+    var recordList = await state.recordDao.getTwentyItems(1);
+    var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
+
+    ExcelHelper.generateTable("D:\\1", header, datas);
   }
 
   void addRemarkInputListener() {
