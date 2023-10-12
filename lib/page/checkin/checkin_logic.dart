@@ -154,7 +154,7 @@ class CheckInLogic extends GetxController {
             date: currentDate,
             livingDays: 1,
             amountPrice: state.record.price,
-            realPayAmount: 0));
+            realPayAmount: state.record.realPayAmount));
         currentDate += 86400000;
       }
       state.record = state.record.copyWith(date: currentDate);
