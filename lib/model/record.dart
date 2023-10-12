@@ -142,4 +142,21 @@ class RoomRecord {
   String toString() {
     return 'RoomRecord{_id: $_id, _roomNo: $_roomNo, _payType: $_payType, _roomType: $_roomType, _currencyUnit: $_currencyUnit, _livingDays: $_livingDays, _price: $_price, _amountPrice: $_amountPrice, _transType: $_transType, _realPayAmount: $_realPayAmount, _date: $_date, _remark: $_remark}';
   }
+
+  List<String> toList() {
+    return [
+      _id.toString(),
+      _roomNo.toString(),
+      _payType.toString(),
+      _roomType.toString(),
+      _currencyUnit.toString(),
+      _livingDays.toString(),
+      _price.toString(),
+      _amountPrice.toString(),
+      _transType.toString(),
+      _realPayAmount.toString(),
+      _date.toString(),
+      _remark.toString()
+    ];
+  }
 }

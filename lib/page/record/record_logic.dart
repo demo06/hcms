@@ -27,7 +27,6 @@ class RecordLogic extends GetxController {
     List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
     var recordList = await state.recordDao.getTwentyItems(1);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
-
     ExcelHelper.generateTable("D:\\1", header, datas);
   }
 

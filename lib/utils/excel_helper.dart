@@ -14,10 +14,13 @@ class ExcelHelper {
     return excel[sheetNames];
   }
 
-  static appendRow(Sheet sheet, List<List<RoomRecord>> rowData) {
-    for (var row in rowData) {
-      sheet.appendRow(row);
+  static appendRow(Sheet sheet, List<RoomRecord> rowData) {
+    for (int i = 0; i < rowData.length; i++) {
+      sheet.insertRowIterables(rowData[i].toList(), i + 1);
     }
+    // for (var row in rowData) {
+    //   sheet.appendRow(row);
+    // }
   }
 
   static setHeader(Sheet sheet, List<String> headers) {
@@ -29,18 +32,17 @@ class ExcelHelper {
     List<int>? fileBytes = excel.save();
     //print('saving executed in ${stopwatch.elapsed}');
     if (fileBytes != null) {
-      File(join(filePath))
+      File(join(filePath, '$tableName.xlsx'))
         ..createSync(recursive: true)
         ..writeAsBytesSync(fileBytes);
     }
   }
 
   static void generateTable(String filePath, List<String> sheetHeader, List<RoomRecord> data) {
-    List<List<RoomRecord>> rowData = List.generate(data.length + 1, (index) => data);
     var excel = createExcel();
     var sheet = createSheet(excel, tableName);
     setHeader(sheet, sheetHeader);
-    appendRow(sheet, rowData);
+    appendRow(sheet, data);
     saveToFile(excel, filePath);
   }
 }
