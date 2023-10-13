@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/model/record.dart';
@@ -140,13 +142,9 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当日基本数据",
                       type: "当日基本数据",
                       onPressed: () async {
-                        var result = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100));
-                        print(result.toString());
-                      },
+                        logic.exportBaseData(1,TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        logic.showToast(context);
+                        },
                     ),
                   ),
                   Expanded(
@@ -154,21 +152,11 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当月基本数据",
                       type: "当月基本数据",
                       onPressed: () {
-                        logic.exportDaily();
+                        logic.exportBaseData(2,TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
+                        logic.showToast(context);
                       },
                     ),
                   ),
-                  // Expanded(
-                  //   child: RadioButton(
-                  //     title: "选择时间",
-                  //     type: "选择时间",
-                  //     onPressed: () async {
-                  //       var result = await showDatePicker(
-                  //           context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
-                  //       print(result.toString());
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
               Container(

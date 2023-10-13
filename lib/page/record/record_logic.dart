@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hcms/global/constants.dart';
 import 'package:hcms/model/record.dart';
 import 'package:hcms/utils/db_helper.dart';
 import 'package:hcms/utils/excel_helper.dart';
 import 'package:hcms/utils/file_util.dart';
+import 'package:hcms/utils/time_util.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'record_state.dart';
@@ -24,12 +27,12 @@ class RecordLogic extends GetxController {
     state.remarkController.text = record.remark.toString();
   }
 
-  void exportDaily() async {
+  void exportBaseData(int type, int startTime, int endTime) async {
     var deskTopPath = await FileUtils.getDesktopPath();
     List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
-    var recordList = await state.recordDao.getTwentyItems(1);
+    var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
-    ExcelHelper.generateTable(deskTopPath, header, datas.reversed.toList());
+    ExcelHelper.generateTable(type == 1 ? "当日基本表" : "当月基本表", deskTopPath, header, datas.reversed.toList());
   }
 
   void addRemarkInputListener() {
@@ -132,5 +135,12 @@ class RecordLogic extends GetxController {
       state.recordList = recordList.map((e) => RoomRecord.fromJson(e)).toList();
       update();
     }
+  }
+
+  void showToast(BuildContext context, {String text = "生成成功"}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(milliseconds: 500),
+      content: Text(text),
+    ));
   }
 }

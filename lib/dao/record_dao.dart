@@ -44,6 +44,12 @@ class RecordDao {
     return result;
   }
 
+  Future<List<Map<String, dynamic>>> getTimeZoneBase(startTime, endTime) async {
+    List<Map<String, dynamic>> result =
+        await db.query('record', where: 'date > ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
+    return result;
+  }
+
   //根据 id 查询组件 node
   Future<List<Map<String, dynamic>>> queryById(int date) async {
     return await db.rawQuery(

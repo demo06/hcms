@@ -32,23 +32,23 @@ class ExcelHelper {
     sheet.insertRowIterables(headers, 0);
   }
 
-  static saveToFile(Excel excel, String filePath) {
+  static saveToFile(Excel excel, String filePath, String fileName) {
     //stopwatch.reset();
     List<int>? fileBytes = excel.save();
     //print('saving executed in ${stopwatch.elapsed}');
     if (fileBytes != null) {
-      File(join(filePath, '$tableName.xlsx'))
+      File(join(filePath, '$fileName.xlsx'))
         ..createSync(recursive: true)
         ..writeAsBytesSync(fileBytes);
     }
   }
 
-  static void generateTable(String filePath, List<String> sheetHeader, List<RoomRecord> data) {
+  static void generateTable(String tableName, String filePath, List<String> sheetHeader, List<RoomRecord> data) {
     var excel = createExcel();
     var sheet = createSheet(excel, tableName);
     deleteSheet(excel, "Sheet1");
     setHeader(sheet, sheetHeader);
     appendRow(sheet, data);
-    saveToFile(excel, filePath);
+    saveToFile(excel, filePath, tableName);
   }
 }
