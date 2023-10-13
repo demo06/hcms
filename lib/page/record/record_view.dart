@@ -114,12 +114,8 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当日汇总",
                       type: "当日汇总",
                       onPressed: () async {
-                        var result = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100));
-                        print(result.toString());
+                        logic.exportSummaryDailyData();
+                        logic.showToast(context);
                       },
                     ),
                   ),
@@ -128,12 +124,7 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当月汇总",
                       type: "当月汇总",
                       onPressed: () async {
-                        var result = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100));
-                        print(result.toString());
+                        logic.showToast(context);
                       },
                     ),
                   ),
@@ -142,9 +133,9 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当日基本数据",
                       type: "当日基本数据",
                       onPressed: () async {
-                        logic.exportBaseData(1,TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        logic.exportBaseData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
                         logic.showToast(context);
-                        },
+                      },
                     ),
                   ),
                   Expanded(
@@ -152,7 +143,7 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当月基本数据",
                       type: "当月基本数据",
                       onPressed: () {
-                        logic.exportBaseData(2,TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
+                        logic.exportBaseData(2, TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
                         logic.showToast(context);
                       },
                     ),

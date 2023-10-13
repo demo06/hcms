@@ -1,7 +1,8 @@
 import 'dart:io';
+
+import 'package:excel/excel.dart';
 import 'package:hcms/model/record.dart';
 import 'package:path/path.dart';
-import 'package:excel/excel.dart';
 
 class ExcelHelper {
   static const String tableName = "酒店入住信息基本表";
@@ -22,9 +23,13 @@ class ExcelHelper {
     return excel.delete(sheetName);
   }
 
-  static appendRow(Sheet sheet, List<RoomRecord> rowData) {
+  static appendRow<T>(Sheet sheet, List<T> rowData) {
     for (int i = 0; i < rowData.length; i++) {
-      sheet.insertRowIterables(rowData[i].toList(), i + 1);
+      if (rowData is List<String>) {
+        sheet.insertRowIterables(rowData, i + 1);
+      } else if (rowData is List<RoomRecord>) {
+        sheet.insertRowIterables((rowData[i] as List<RoomRecord>).toList(), i + 1);
+      }
     }
   }
 
@@ -43,12 +48,12 @@ class ExcelHelper {
     }
   }
 
-  static void generateTable(String tableName, String filePath, List<String> sheetHeader, List<RoomRecord> data) {
+  static void generateTable<T>(String tableName, String filePath, List<String> sheetHeader, List<T> data) {
     var excel = createExcel();
     var sheet = createSheet(excel, tableName);
     deleteSheet(excel, "Sheet1");
     setHeader(sheet, sheetHeader);
-    appendRow(sheet, data);
+    appendRow<T>(sheet, data);
     saveToFile(excel, filePath, tableName);
   }
 }

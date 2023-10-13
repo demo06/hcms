@@ -157,7 +157,7 @@ class RoomRecord {
       _amountPrice.toString(),
       _transType.toString(),
       _realPayAmount.toString(),
-      TimeUtil.transMillToDate(millisconds: _date!.toInt(), format: 'yyyy-MM-dd'),
+      TimeUtil.transMillToDate(millisconds: _date!.toInt()),
       _remark.toString()
     ];
   }

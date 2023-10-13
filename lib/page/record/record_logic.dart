@@ -1,9 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hcms/global/constants.dart';
 import 'package:hcms/model/record.dart';
-import 'package:hcms/utils/db_helper.dart';
 import 'package:hcms/utils/excel_helper.dart';
 import 'package:hcms/utils/file_util.dart';
 import 'package:hcms/utils/time_util.dart';
@@ -32,7 +32,60 @@ class RecordLogic extends GetxController {
     List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
-    ExcelHelper.generateTable(type == 1 ? "当日基本表" : "当月基本表", deskTopPath, header, datas.reversed.toList());
+    ExcelHelper.generateTable<RoomRecord>(
+        type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}",
+        deskTopPath,
+        header,
+        datas.reversed.toList());
+  }
+
+  void exportSummaryDailyData() async {
+    var date = '';
+    List<String> header = ["日期", "宽扎现金", "宽扎刷卡", "宽扎转账", "宽扎挂账", "人民币现金", "人民币转账", "美金现金", "备注"];
+    List<String> daily = ["0", "0", "0", "0", "0", "0", "0", "0", "0", ""];
+    List<>
+    var deskTopPath = await FileUtils.getDesktopPath();
+    var recordList = await state.recordDao.getTimeZoneBase(TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+    var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
+    for (var record in datas) {
+      date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
+      daily[0] = TimeUtil.transMillToDate(millisconds: record.date.toInt());
+      if (record.currencyUnit == '宽扎' && record.transType == '现金') {
+        daily[1] = (int.parse(daily[1]) + record.realPayAmount.toInt()).toString();
+      } else if (record.currencyUnit == '宽扎' && record.transType == '刷卡') {
+        daily[2] = (int.parse(daily[2]) + record.realPayAmount.toInt()).toString();
+        record.realPayAmount.toInt();
+      } else if (record.currencyUnit == '宽扎' && record.transType == '转账') {
+        daily[3] = (int.parse(daily[3]) + record.realPayAmount.toInt()).toString();
+        record.realPayAmount.toInt();
+      } else if (record.currencyUnit == '宽扎' && record.transType == '挂账') {
+        daily[4] = (int.parse(daily[4]) + record.realPayAmount.toInt()).toString();
+        record.realPayAmount.toInt();
+      } else if (record.currencyUnit == '人民币' && record.transType == '现金') {
+        daily[5] = (int.parse(daily[5]) + record.realPayAmount.toInt()).toString();
+        record.realPayAmount.toInt();
+      } else if (record.currencyUnit == '人民币' && record.transType == '转账') {
+        daily[6] = (int.parse(daily[6]) + record.realPayAmount.toInt()).toString();
+        record.realPayAmount.toInt();
+      } else if (record.currencyUnit == '美金' && record.transType == '现金') {
+        daily[7] = (int.parse(daily[7]) + record.realPayAmount.toInt()).toString();
+        record.realPayAmount.toInt();
+      }
+    }
+    ExcelHelper.generateTable<String>("当日汇总表${TimeUtil.getTodayDate()}", deskTopPath, header, daily);
+  }
+
+  void exportSummaryData(int type, int startTime, int endTime) async {
+    var deskTopPath = await FileUtils.getDesktopPath();
+    List<String> header = ["日期", "宽扎现金", "宽扎刷卡", "宽扎转账", "宽扎挂账", "人民币现金", "人民币转账", "美金现金", "备注"];
+    var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
+    var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
+
+    ExcelHelper.generateTable<RoomRecord>(
+        type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate()}",
+        deskTopPath,
+        header,
+        datas.reversed.toList());
   }
 
   void addRemarkInputListener() {

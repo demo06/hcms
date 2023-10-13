@@ -13,11 +13,11 @@ class TimeUtil {
     return DateTime.now().day;
   }
 
-  static String getTodayDate({String? format = "yyyy年MM月dd日"}) {
+  static String getTodayDate({String? format = "yyyy-MM-dd"}) {
     return DateFormat(format).format(DateTime.now());
   }
 
-  static String transMillToDate({required int millisconds, String? format = "yyyy年MM月dd日"}) {
+  static String transMillToDate({required int millisconds, String? format = "yyyy-MM-dd"}) {
     return DateFormat(format).format(DateTime.fromMillisecondsSinceEpoch(millisconds));
   }
 
