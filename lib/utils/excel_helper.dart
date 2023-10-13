@@ -24,11 +24,12 @@ class ExcelHelper {
   }
 
   static appendRow<T>(Sheet sheet, List<T> rowData) {
-    for (int i = 0; i < rowData.length; i++) {
-      if (rowData is List<String>) {
-        sheet.insertRowIterables(rowData, i + 1);
-      } else if (rowData is List<RoomRecord>) {
-        sheet.insertRowIterables((rowData[i] as List<RoomRecord>).toList(), i + 1);
+    //todo 这里还需要修改当日的汇总数据
+    if (rowData is List<String>) {
+      sheet.insertRowIterables(rowData, 1);
+    } else if (rowData is List<RoomRecord>) {
+      for (int i = 0; i < rowData.length; i++) {
+        sheet.insertRowIterables((rowData[i] as RoomRecord).toList(), i + 1);
       }
     }
   }

@@ -33,46 +33,48 @@ class RecordLogic extends GetxController {
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     ExcelHelper.generateTable<RoomRecord>(
-        type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}",
-        deskTopPath,
-        header,
-        datas.reversed.toList());
+        type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}", deskTopPath, header, datas.reversed.toList());
   }
 
   void exportSummaryDailyData() async {
-    var date = '';
     List<String> header = ["日期", "宽扎现金", "宽扎刷卡", "宽扎转账", "宽扎挂账", "人民币现金", "人民币转账", "美金现金", "备注"];
-    List<String> daily = ["0", "0", "0", "0", "0", "0", "0", "0", "0", ""];
-    List<>
+    Map<String, List<String>> summary = {};
     var deskTopPath = await FileUtils.getDesktopPath();
     var recordList = await state.recordDao.getTimeZoneBase(TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     for (var record in datas) {
-      date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
-      daily[0] = TimeUtil.transMillToDate(millisconds: record.date.toInt());
-      if (record.currencyUnit == '宽扎' && record.transType == '现金') {
-        daily[1] = (int.parse(daily[1]) + record.realPayAmount.toInt()).toString();
-      } else if (record.currencyUnit == '宽扎' && record.transType == '刷卡') {
-        daily[2] = (int.parse(daily[2]) + record.realPayAmount.toInt()).toString();
-        record.realPayAmount.toInt();
-      } else if (record.currencyUnit == '宽扎' && record.transType == '转账') {
-        daily[3] = (int.parse(daily[3]) + record.realPayAmount.toInt()).toString();
-        record.realPayAmount.toInt();
-      } else if (record.currencyUnit == '宽扎' && record.transType == '挂账') {
-        daily[4] = (int.parse(daily[4]) + record.realPayAmount.toInt()).toString();
-        record.realPayAmount.toInt();
-      } else if (record.currencyUnit == '人民币' && record.transType == '现金') {
-        daily[5] = (int.parse(daily[5]) + record.realPayAmount.toInt()).toString();
-        record.realPayAmount.toInt();
-      } else if (record.currencyUnit == '人民币' && record.transType == '转账') {
-        daily[6] = (int.parse(daily[6]) + record.realPayAmount.toInt()).toString();
-        record.realPayAmount.toInt();
-      } else if (record.currencyUnit == '美金' && record.transType == '现金') {
-        daily[7] = (int.parse(daily[7]) + record.realPayAmount.toInt()).toString();
-        record.realPayAmount.toInt();
-      }
+      var date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
+      summary[date] = setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
+      ExcelHelper.generateTable<String>("当日汇总表${TimeUtil.getTodayDate()}", deskTopPath, header, summary[date]!.toList());
     }
-    ExcelHelper.generateTable<String>("当日汇总表${TimeUtil.getTodayDate()}", deskTopPath, header, daily);
+  }
+
+  List<String> setNewDate(List<String> list, RoomRecord record) {
+    List<String> daily = list;
+    daily[0] = TimeUtil.transMillToDate(millisconds: record.date.toInt());
+    if (record.currencyUnit == '宽扎' && record.transType == '现金') {
+      daily[1] = (int.parse(daily[1]) + record.realPayAmount.toInt()).toString();
+    } else if (record.currencyUnit == '宽扎' && record.transType == '刷卡') {
+      daily[2] = (int.parse(daily[2]) + record.realPayAmount.toInt()).toString();
+      record.realPayAmount.toInt();
+    } else if (record.currencyUnit == '宽扎' && record.transType == '转账') {
+      daily[3] = (int.parse(daily[3]) + record.realPayAmount.toInt()).toString();
+      record.realPayAmount.toInt();
+    } else if (record.currencyUnit == '宽扎' && record.transType == '挂账') {
+      daily[4] = (int.parse(daily[4]) + record.realPayAmount.toInt()).toString();
+      record.realPayAmount.toInt();
+    } else if (record.currencyUnit == '人民币' && record.transType == '现金') {
+      daily[5] = (int.parse(daily[5]) + record.realPayAmount.toInt()).toString();
+      record.realPayAmount.toInt();
+    } else if (record.currencyUnit == '人民币' && record.transType == '转账') {
+      daily[6] = (int.parse(daily[6]) + record.realPayAmount.toInt()).toString();
+      record.realPayAmount.toInt();
+    } else if (record.currencyUnit == '美金' && record.transType == '现金') {
+      daily[7] = (int.parse(daily[7]) + record.realPayAmount.toInt()).toString();
+      record.realPayAmount.toInt();
+    }
+
+    return daily;
   }
 
   void exportSummaryData(int type, int startTime, int endTime) async {
@@ -82,10 +84,7 @@ class RecordLogic extends GetxController {
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
 
     ExcelHelper.generateTable<RoomRecord>(
-        type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate()}",
-        deskTopPath,
-        header,
-        datas.reversed.toList());
+        type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate()}", deskTopPath, header, datas.reversed.toList());
   }
 
   void addRemarkInputListener() {
