@@ -1,3 +1,5 @@
+import 'package:hcms/utils/time_util.dart';
+
 /// id : 1
 /// roomNum : 1
 /// payType : "ss"
@@ -155,7 +157,7 @@ class RoomRecord {
       _amountPrice.toString(),
       _transType.toString(),
       _realPayAmount.toString(),
-      _date.toString(),
+      TimeUtil.transMillToDate(millisconds: _date!.toInt(), format: 'yyyy-MM-dd'),
       _remark.toString()
     ];
   }

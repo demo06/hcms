@@ -14,13 +14,18 @@ class ExcelHelper {
     return excel[sheetNames];
   }
 
+  static renameSheet(Excel excel, String oldSheetName, String newSheetName) {
+    return excel.rename(oldSheetName, newSheetName);
+  }
+
+  static deleteSheet(Excel excel, String sheetName) {
+    return excel.delete(sheetName);
+  }
+
   static appendRow(Sheet sheet, List<RoomRecord> rowData) {
     for (int i = 0; i < rowData.length; i++) {
       sheet.insertRowIterables(rowData[i].toList(), i + 1);
     }
-    // for (var row in rowData) {
-    //   sheet.appendRow(row);
-    // }
   }
 
   static setHeader(Sheet sheet, List<String> headers) {
@@ -41,6 +46,7 @@ class ExcelHelper {
   static void generateTable(String filePath, List<String> sheetHeader, List<RoomRecord> data) {
     var excel = createExcel();
     var sheet = createSheet(excel, tableName);
+    deleteSheet(excel, "Sheet1");
     setHeader(sheet, sheetHeader);
     appendRow(sheet, data);
     saveToFile(excel, filePath);

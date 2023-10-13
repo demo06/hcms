@@ -265,7 +265,7 @@ class _RecordPageState extends State<RecordPage> {
         Expanded(flex: 1, child: _cell(title: record.realPayAmount.toString())),
         Expanded(
             flex: 1,
-            child: _cell(title: TimeUtil().transMillToDate(millisconds: record.date.toInt(), format: 'yyyy-MM-dd'))),
+            child: _cell(title: TimeUtil.transMillToDate(millisconds: record.date.toInt(), format: 'yyyy-MM-dd'))),
         Expanded(flex: 1, child: _cell(title: record.remark.toString())),
         Expanded(
             flex: 1,
