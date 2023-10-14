@@ -159,7 +159,7 @@ class CheckInLogic extends GetxController {
       }
       state.record = state.record.copyWith(date: currentDate);
     } else {
-      DB.instance.recordDao.insert(state.record);
+      DB.instance.recordDao.insert(state.record.copyWith(date: DateTime.now().millisecondsSinceEpoch));
     }
     showToast(context, "录入成功");
   }

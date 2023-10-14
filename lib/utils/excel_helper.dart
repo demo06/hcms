@@ -23,14 +23,15 @@ class ExcelHelper {
     return excel.delete(sheetName);
   }
 
-  static appendRow<T>(Sheet sheet, List<T> rowData) {
-    //todo 这里还需要修改当日的汇总数据
-    if (rowData is List<String>) {
-      sheet.insertRowIterables(rowData, 1);
-    } else if (rowData is List<RoomRecord>) {
-      for (int i = 0; i < rowData.length; i++) {
-        sheet.insertRowIterables((rowData[i] as RoomRecord).toList(), i + 1);
-      }
+  static appendRow(Sheet sheet, List<RoomRecord> rowData) {
+    for (int i = 0; i < rowData.length; i++) {
+      sheet.insertRowIterables(rowData[i].toList(), i + 1);
+    }
+  }
+
+  static appendRows(Sheet sheet, List<List<String>> rowData) {
+    for (int i = 0; i < rowData.length; i++) {
+      sheet.insertRowIterables(rowData[i], i + 1);
     }
   }
 
@@ -49,12 +50,16 @@ class ExcelHelper {
     }
   }
 
-  static void generateTable<T>(String tableName, String filePath, List<String> sheetHeader, List<T> data) {
+  static void generateTable(String tableName, String filePath, List<String> sheetHeader, List data) {
     var excel = createExcel();
     var sheet = createSheet(excel, tableName);
     deleteSheet(excel, "Sheet1");
     setHeader(sheet, sheetHeader);
-    appendRow<T>(sheet, data);
+    if (data is List<List<String>>) {
+      appendRows(sheet, data.cast<List<String>>());
+    } else {
+      appendRow(sheet, data.cast<RoomRecord>());
+    }
     saveToFile(excel, filePath, tableName);
   }
 }
