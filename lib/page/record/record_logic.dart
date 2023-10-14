@@ -27,6 +27,16 @@ class RecordLogic extends GetxController {
     state.remarkController.text = record.remark.toString();
   }
 
+  Future<int> exportMonthResideRate() async {
+    //todo这里要调整
+    var deskTopPath = await FileUtils.getDesktopPath();
+    List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
+    var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
+    var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
+
+    return 1;
+  }
+
   Future<int> exportBaseData(int type, int startTime, int endTime) async {
     var deskTopPath = await FileUtils.getDesktopPath();
     List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
@@ -42,7 +52,7 @@ class RecordLogic extends GetxController {
     }
   }
 
-  Future<int> exportSummaryDailyData(int type, int startTime, int endTime) async {
+  Future<int> exportSummaryData(int type, int startTime, int endTime) async {
     List<String> header = ["日期", "宽扎现金", "宽扎刷卡", "宽扎转账", "宽扎挂账", "人民币现金", "人民币转账", "美金现金", "备注"];
     Map<String, List<String>> summary = {};
     var deskTopPath = await FileUtils.getDesktopPath();
@@ -90,20 +100,6 @@ class RecordLogic extends GetxController {
       record.realPayAmount.toInt();
     }
     return daily;
-  }
-
-  Future<int> exportSummaryData(int type, int startTime, int endTime) async {
-    var deskTopPath = await FileUtils.getDesktopPath();
-    List<String> header = ["日期", "宽扎现金", "宽扎刷卡", "宽扎转账", "宽扎挂账", "人民币现金", "人民币转账", "美金现金", "备注"];
-    var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
-    var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
-    try {
-      ExcelHelper.generateTable(type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate()}",
-          deskTopPath, header, datas.reversed.toList());
-      return 0;
-    } catch (e) {
-      return 1;
-    }
   }
 
   void addRemarkInputListener() {

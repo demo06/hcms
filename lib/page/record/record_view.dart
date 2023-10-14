@@ -40,20 +40,6 @@ class _RecordPageState extends State<RecordPage> {
                 children: [
                   Expanded(
                     child: RadioButton(
-                      title: "宾馆当日入住率",
-                      type: "宾馆当日入住率",
-                      onPressed: () async {
-                        var result = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100));
-                        print(result.toString());
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: RadioButton(
                       title: "宾馆当月入住率",
                       type: "宾馆当月入住率",
                       onPressed: () async {
@@ -68,18 +54,30 @@ class _RecordPageState extends State<RecordPage> {
                   ),
                   Expanded(
                     child: RadioButton(
-                      title: "公寓当日入住率",
-                      type: "公寓当日入住率",
+                      title: "当日汇总",
+                      type: "当日汇总",
                       onPressed: () async {
-                        var result = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100));
-                        print(result.toString());
+                        var result =
+                            await logic.exportSummaryData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
                   ),
+                  Expanded(
+                    child: RadioButton(
+                      title: "当日基本数据",
+                      type: "当日基本数据",
+                      onPressed: () async {
+                        var result =
+                            await logic.exportBaseData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
                   Expanded(
                     child: RadioButton(
                       title: "公寓当月入住率",
@@ -94,50 +92,12 @@ class _RecordPageState extends State<RecordPage> {
                       },
                     ),
                   ),
-                  // Expanded(
-                  //   child: RadioButton(
-                  //     title: "选择时间",
-                  //     type: "选择时间",
-                  //     onPressed: () async {
-                  //       var result = await showDatePicker(
-                  //           context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2100));
-                  //       print(result.toString());
-                  //     },
-                  //   ),
-                  // ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioButton(
-                      title: "当日汇总",
-                      type: "当日汇总",
-                      onPressed: () async {
-                        var result = await logic.exportSummaryDailyData(
-                            1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
-                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
-                      },
-                    ),
-                  ),
                   Expanded(
                     child: RadioButton(
                       title: "当月汇总",
                       type: "当月汇总",
                       onPressed: () async {
-                        var result =
-                            await logic.exportSummaryDailyData(2, TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
-                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: RadioButton(
-                      title: "当日基本数据",
-                      type: "当日基本数据",
-                      onPressed: () async {
-                        var result =
-                            await logic.exportBaseData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        var result = await logic.exportSummaryData(2, TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
                         logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
