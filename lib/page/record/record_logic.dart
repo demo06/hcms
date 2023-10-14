@@ -27,25 +27,41 @@ class RecordLogic extends GetxController {
     state.remarkController.text = record.remark.toString();
   }
 
-  void exportBaseData(int type, int startTime, int endTime) async {
+  Future<int> exportBaseData(int type, int startTime, int endTime) async {
     var deskTopPath = await FileUtils.getDesktopPath();
     List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
-    ExcelHelper.generateTable<RoomRecord>(
-        type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}", deskTopPath, header, datas.reversed.toList());
+
+    try {
+      ExcelHelper.generateTable(type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}",
+          deskTopPath, header, datas.reversed.toList());
+      return 0;
+    } catch (e) {
+      return 1;
+    }
   }
 
-  void exportSummaryDailyData() async {
+  Future<int> exportSummaryDailyData(int type, int startTime, int endTime) async {
     List<String> header = ["日期", "宽扎现金", "宽扎刷卡", "宽扎转账", "宽扎挂账", "人民币现金", "人民币转账", "美金现金", "备注"];
     Map<String, List<String>> summary = {};
     var deskTopPath = await FileUtils.getDesktopPath();
-    var recordList = await state.recordDao.getTimeZoneBase(TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+    var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     for (var record in datas) {
       var date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
-      summary[date] = setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
-      ExcelHelper.generateTable<String>("当日汇总表${TimeUtil.getTodayDate()}", deskTopPath, header, summary[date]!.toList());
+      summary[date] =
+          setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
+    }
+    try {
+      ExcelHelper.generateTable(
+          type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
+          deskTopPath,
+          header,
+          summary.values.toList());
+      return 0;
+    } catch (e) {
+      return 1;
     }
   }
 
@@ -57,7 +73,7 @@ class RecordLogic extends GetxController {
     } else if (record.currencyUnit == '宽扎' && record.transType == '刷卡') {
       daily[2] = (int.parse(daily[2]) + record.realPayAmount.toInt()).toString();
       record.realPayAmount.toInt();
-    } else if (record.currencyUnit == '宽扎' && record.transType == '转账') {
+    } else if (record.currencyUnit == '宽扎' && record.transType == '微信转账') {
       daily[3] = (int.parse(daily[3]) + record.realPayAmount.toInt()).toString();
       record.realPayAmount.toInt();
     } else if (record.currencyUnit == '宽扎' && record.transType == '挂账') {
@@ -66,25 +82,28 @@ class RecordLogic extends GetxController {
     } else if (record.currencyUnit == '人民币' && record.transType == '现金') {
       daily[5] = (int.parse(daily[5]) + record.realPayAmount.toInt()).toString();
       record.realPayAmount.toInt();
-    } else if (record.currencyUnit == '人民币' && record.transType == '转账') {
+    } else if (record.currencyUnit == '人民币' && record.transType == '微信转账') {
       daily[6] = (int.parse(daily[6]) + record.realPayAmount.toInt()).toString();
       record.realPayAmount.toInt();
     } else if (record.currencyUnit == '美金' && record.transType == '现金') {
       daily[7] = (int.parse(daily[7]) + record.realPayAmount.toInt()).toString();
       record.realPayAmount.toInt();
     }
-
     return daily;
   }
 
-  void exportSummaryData(int type, int startTime, int endTime) async {
+  Future<int> exportSummaryData(int type, int startTime, int endTime) async {
     var deskTopPath = await FileUtils.getDesktopPath();
     List<String> header = ["日期", "宽扎现金", "宽扎刷卡", "宽扎转账", "宽扎挂账", "人民币现金", "人民币转账", "美金现金", "备注"];
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
-
-    ExcelHelper.generateTable<RoomRecord>(
-        type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate()}", deskTopPath, header, datas.reversed.toList());
+    try {
+      ExcelHelper.generateTable(type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate()}",
+          deskTopPath, header, datas.reversed.toList());
+      return 0;
+    } catch (e) {
+      return 1;
+    }
   }
 
   void addRemarkInputListener() {

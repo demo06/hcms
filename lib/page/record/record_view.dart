@@ -114,8 +114,9 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当日汇总",
                       type: "当日汇总",
                       onPressed: () async {
-                        logic.exportSummaryDailyData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
-                        logic.showToast(context);
+                        var result = await logic.exportSummaryDailyData(
+                            1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
                   ),
@@ -124,8 +125,9 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当月汇总",
                       type: "当月汇总",
                       onPressed: () async {
-                        logic.exportSummaryDailyData(2, TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
-                        logic.showToast(context);
+                        var result =
+                            await logic.exportSummaryDailyData(2, TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
                   ),
@@ -134,8 +136,9 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当日基本数据",
                       type: "当日基本数据",
                       onPressed: () async {
-                        logic.exportBaseData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
-                        logic.showToast(context);
+                        var result =
+                            await logic.exportBaseData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
                   ),
@@ -143,9 +146,9 @@ class _RecordPageState extends State<RecordPage> {
                     child: RadioButton(
                       title: "当月基本数据",
                       type: "当月基本数据",
-                      onPressed: () {
-                        logic.exportBaseData(2, TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
-                        logic.showToast(context);
+                      onPressed: () async {
+                        var result = await logic.exportBaseData(2, TimeUtil.getMonthStart(), TimeUtil.getMonthEnd());
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
                   ),
