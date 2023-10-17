@@ -98,7 +98,7 @@ class CheckInLogic extends GetxController {
   }
 
   void chooseRoom(int index) {
-    state.record = state.record.copyWith(roomNo: state.rooms[index].no);
+    state.record = state.record.copyWith(roomNo: state.rooms[index].no, roomType: state.rooms[index].type);
     changedPrice();
     update();
   }
