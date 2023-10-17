@@ -30,16 +30,25 @@ class RecordLogic extends GetxController {
   Future<int> exportMonthResideRate(int type) async {
     //todo这里要调整
     var deskTopPath = await FileUtils.getDesktopPath();
-    Map<String, List<String>> resideMap = {};
+    Map<String, int> resideMap = {};
     List<String> header = ["日期", "入住房间数", "入住率", "备注"];
+    List<List<String>> body = [];
     var recordList = await state.recordDao.getTypeRate(type == 1 ? "宾馆" : "公寓");
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     for (var record in datas) {
       var date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
+      if (resideMap.containsKey(date)) {
+        resideMap.update(date, (value) => value += 1);
+      } else {
+        resideMap[date] = 1;
+      }
     }
+    resideMap.forEach((key, value) {
+      body.add([key, value.toString(), "${(value / 28 * 100).toStringAsFixed(2)}%", ""]);
+    });
     try {
-      ExcelHelper.generateTable(type == 1 ? "宾馆当月入住率${TimeUtil.getTodayDate()}" : "公寓当月入住率${TimeUtil.getTodayDate()}",
-          deskTopPath, header, datas.reversed.toList());
+      ExcelHelper.generateTable(type == 1 ? "宾馆当月入住率${TimeUtil.getTodayDate()}" : "公寓当月入住率${TimeUtil.getTodayDate()}", deskTopPath, header,
+          body.reversed.toList());
       return 0;
     } catch (e) {
       return 1;
@@ -65,8 +74,8 @@ class RecordLogic extends GetxController {
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     try {
-      ExcelHelper.generateTable(type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}",
-          deskTopPath, header, datas.reversed.toList());
+      ExcelHelper.generateTable(
+          type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}", deskTopPath, header, datas.reversed.toList());
       return 0;
     } catch (e) {
       return 1;
@@ -81,15 +90,11 @@ class RecordLogic extends GetxController {
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     for (var record in datas) {
       var date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
-      summary[date] =
-          setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
+      summary[date] = setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
     }
     try {
-      ExcelHelper.generateTable(
-          type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
-          deskTopPath,
-          header,
-          summary.values.toList().reversed.toList());
+      ExcelHelper.generateTable(type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
+          deskTopPath, header, summary.values.toList().reversed.toList());
       return 0;
     } catch (e) {
       return 1;
