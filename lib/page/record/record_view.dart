@@ -43,12 +43,8 @@ class _RecordPageState extends State<RecordPage> {
                       title: "宾馆当月入住率",
                       type: "宾馆当月入住率",
                       onPressed: () async {
-                        var result = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100));
-                        print(result.toString());
+                        var result = await logic.exportMonthResideRate(1);
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
                   ),
@@ -83,12 +79,8 @@ class _RecordPageState extends State<RecordPage> {
                       title: "公寓当月入住率",
                       type: "公寓当月入住率",
                       onPressed: () async {
-                        var result = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100));
-                        print(result.toString());
+                        var result = await logic.exportMonthResideRate(2);
+                        logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),
                   ),

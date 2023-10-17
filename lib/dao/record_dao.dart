@@ -1,5 +1,6 @@
 import 'package:hcms/global/constants.dart';
 import 'package:hcms/model/record.dart';
+import 'package:hcms/utils/time_util.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class RecordDao {
@@ -50,6 +51,12 @@ class RecordDao {
     return result;
   }
 
+
+  Future<List<Map<String, dynamic>>> getTypeRate(String roomType) async {
+    List<Map<String, dynamic>> result =
+    await db.query('record', where: 'date > ? and date < ? and roomType=?', whereArgs: [TimeUtil.getMonthStart(), TimeUtil.getMonthEnd(),roomType], orderBy: 'id DESC');
+    return result;
+  }
   Future<List<Map<String, dynamic>>> getTimeZoneSummary(startTime, endTime) async {
     List<Map<String, dynamic>> result =
     await db.query('record', where: 'date > ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
