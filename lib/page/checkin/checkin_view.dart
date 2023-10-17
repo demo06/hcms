@@ -108,10 +108,10 @@ class _CheckInPageState extends State<CheckInPage> {
                                   })),
                           Expanded(
                               child: RadioButton(
-                                  title: "微信转账",
+                                  title: state.record.currencyUnit == "人民币" ? "微信转账" : "转账",
                                   type: state.record.transType,
                                   onPressed: () {
-                                    logic.changedPayType("微信转账");
+                                    logic.changedPayType(state.record.currencyUnit == "人民币" ? "微信转账" : "转账");
                                   })),
                           Expanded(
                               child: RadioButton(

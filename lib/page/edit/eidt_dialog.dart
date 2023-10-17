@@ -108,10 +108,10 @@ class _EditDialogState extends State<EditDialog> {
                                         })),
                                 Expanded(
                                     child: RadioButton(
-                                        title: "微信转账",
+                                        title: state.record.currencyUnit == "人民币" ? "微信转账" : "转账",
                                         type: state.record.transType,
                                         onPressed: () {
-                                          logic.changeTransType("微信转账");
+                                          logic.changeTransType(state.record.currencyUnit == "人民币" ? "微信转账" : "转账");
                                         })),
                                 Expanded(
                                     child: RadioButton(

@@ -151,10 +151,7 @@ class CheckInLogic extends GetxController {
     if (state.record.livingDays > 1) {
       for (int i = 0; i < state.record.livingDays; i++) {
         DB.instance.recordDao.insert(state.record.copyWith(
-            date: currentDate,
-            livingDays: 1,
-            amountPrice: state.record.price,
-            realPayAmount: i == 0 ? state.record.realPayAmount : 0));
+            date: currentDate, livingDays: 1, amountPrice: state.record.price, realPayAmount: i == 0 ? state.record.realPayAmount : 0));
         currentDate += 86400000;
       }
       state.record = state.record.copyWith(date: currentDate);
