@@ -45,8 +45,8 @@ class RecordLogic extends GetxController {
       body.add([key, value.toString(), "${(value / 28 * 100).toStringAsFixed(2)}%", ""]);
     });
     try {
-      ExcelHelper.generateTable(type == 1 ? "宾馆当月入住率${TimeUtil.getTodayDate()}" : "公寓当月入住率${TimeUtil.getTodayDate()}",
-          deskTopPath, header, body.reversed.toList());
+      ExcelHelper.generateTable(type == 1 ? "宾馆当月入住率${TimeUtil.getTodayDate()}" : "公寓当月入住率${TimeUtil.getTodayDate()}", deskTopPath, header,
+          body.reversed.toList());
       return 0;
     } catch (e) {
       return 1;
@@ -72,12 +72,38 @@ class RecordLogic extends GetxController {
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     try {
-      ExcelHelper.generateTable(type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}",
-          deskTopPath, header, datas.reversed.toList());
+      ExcelHelper.generateTable(
+          type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}", deskTopPath, header, datas.reversed.toList());
       return 0;
     } catch (e) {
       return 1;
     }
+  }
+
+  Future<int> exportSummary(int type, String roomType, String currencyUnit, String transType) async {
+    List<String> header = ["付款方式", "宾馆", "公寓", "小计"];
+    List<String> countType = ["宽扎现金", "宽扎转账", "人民币现金", "人民币微信转账", "美元现金", "宽扎挂账"];
+    List<List<String>> summary = [];
+    countType.forEach((element) {
+      summary.add([element,]);
+    }
+      if (element == "宽扎现金" || element == "宽扎转账") {
+    });
+    try {
+      // ExcelHelper.generateTable(type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
+      //     deskTopPath, header, summary.values.toList().reversed.toList());
+      return 0;
+    } catch (e) {
+      return 1;
+    }
+  }
+
+  Future<int> countAmount(int type, String roomType, String currencyUnit, String transType, String payType) async {
+    var startTime = type == 1 ? TimeUtil.getTodayStartTime() : TimeUtil.getMonthStart();
+    var endTime = type == 1 ? TimeUtil.getTodayEndTime() : TimeUtil.getMonthEnd();
+    var recordList = await state.recordDao.getSummary(roomType, currencyUnit, transType, startTime, endTime);
+    var result = Sqflite.firstIntValue(recordList) ?? 0;
+    return result;
   }
 
   Future<int> exportSummaryData(int type, int startTime, int endTime) async {
@@ -88,15 +114,11 @@ class RecordLogic extends GetxController {
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     for (var record in datas) {
       var date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
-      summary[date] =
-          setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
+      summary[date] = setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
     }
     try {
-      ExcelHelper.generateTable(
-          type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
-          deskTopPath,
-          header,
-          summary.values.toList().reversed.toList());
+      ExcelHelper.generateTable(type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
+          deskTopPath, header, summary.values.toList().reversed.toList());
       return 0;
     } catch (e) {
       return 1;
@@ -147,8 +169,7 @@ class RecordLogic extends GetxController {
   }
 
   void changePayType(String value) {
-    state.record = state.record
-        .copyWith(payType: value, currencyUnit: value == "挂账" ? "宽扎" : "宽扎", transType: value == "挂账" ? "挂账" : "现金");
+    state.record = state.record.copyWith(payType: value, currencyUnit: value == "挂账" ? "宽扎" : "宽扎", transType: value == "挂账" ? "挂账" : "现金");
     update();
   }
 
@@ -181,8 +202,8 @@ class RecordLogic extends GetxController {
 
   void addition() {
     var days = state.record.livingDays + 1;
-    state.record = state.record
-        .copyWith(amountPrice: state.record.price * days, livingDays: days, realPayAmount: state.record.price * days);
+    state.record =
+        state.record.copyWith(amountPrice: state.record.price * days, livingDays: days, realPayAmount: state.record.price * days);
     state.realIncomeController.text = (state.record.price * days).toString();
     update();
   }
@@ -190,16 +211,16 @@ class RecordLogic extends GetxController {
   void subtraction() {
     if (state.record.livingDays > 1) {
       var living = state.record.livingDays - 1;
-      state.record = state.record.copyWith(
-          amountPrice: state.record.price * living, livingDays: living, realPayAmount: state.record.price * living);
+      state.record =
+          state.record.copyWith(amountPrice: state.record.price * living, livingDays: living, realPayAmount: state.record.price * living);
       state.realIncomeController.text = (state.record.price * living).toString();
     }
     update();
   }
 
   void changePrice(int price) {
-    state.record = state.record.copyWith(
-        price: price, amountPrice: price * state.record.livingDays, realPayAmount: price * state.record.livingDays);
+    state.record =
+        state.record.copyWith(price: price, amountPrice: price * state.record.livingDays, realPayAmount: price * state.record.livingDays);
     state.realIncomeController.text = (price * state.record.livingDays).toString();
     state.priceController.text = price.toString();
     update();

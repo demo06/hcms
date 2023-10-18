@@ -40,8 +40,15 @@ class RecordDao {
 
   Future<List<Map<String, dynamic>>> getTwentyItems(int pageNumber) async {
     int offset = (pageNumber - 1) * Constants.pageSize;
-    List<Map<String, dynamic>> result =
-        await db.query('record', limit: Constants.pageSize, offset: offset, orderBy: 'id DESC');
+    List<Map<String, dynamic>> result = await db.query('record', limit: Constants.pageSize, offset: offset, orderBy: 'id DESC');
+    return result;
+  }
+
+  Future<List<Map<String, dynamic>>> getSummary(roomType, currencyUnit, transType, startTime, endTime) async {
+    String sql = //插入数据
+        "SELECT SUM(realPayAmount) FROM Record "
+        "WHERE roomType = ? AND currencyUnit=? AND transType=? AND date>=? AND date<= ?";
+    var result = await db.rawQuery(sql, [roomType, currencyUnit, transType, startTime, endTime]);
     return result;
   }
 
