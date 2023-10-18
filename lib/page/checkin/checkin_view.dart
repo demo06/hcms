@@ -63,7 +63,13 @@ class _CheckInPageState extends State<CheckInPage> {
                             onPressed: () {
                               logic.changedEntryType("预收");
                             })),
-                    const Expanded(child: Text("")),
+                    Expanded(
+                        child: RadioButton(
+                            title: "挂账",
+                            type: state.record.payType,
+                            onPressed: () {
+                              logic.changedEntryType("挂账");
+                            })),
                   ],
                 ),
                 Row(
@@ -98,36 +104,7 @@ class _CheckInPageState extends State<CheckInPage> {
                     Expanded(
                       flex: 3,
                       child: Row(
-                        children: [
-                          Expanded(
-                              child: RadioButton(
-                                  title: "现金",
-                                  type: state.record.transType,
-                                  onPressed: () {
-                                    logic.changedPayType("现金");
-                                  })),
-                          Expanded(
-                              child: RadioButton(
-                                  title: state.record.currencyUnit == "人民币" ? "微信转账" : "转账",
-                                  type: state.record.transType,
-                                  onPressed: () {
-                                    logic.changedPayType(state.record.currencyUnit == "人民币" ? "微信转账" : "转账");
-                                  })),
-                          Expanded(
-                              child: RadioButton(
-                                  title: "挂账",
-                                  type: state.record.transType,
-                                  onPressed: () {
-                                    logic.changedPayType("挂账");
-                                  })),
-                          Expanded(
-                              child: RadioButton(
-                                  title: "刷卡",
-                                  type: state.record.transType,
-                                  onPressed: () {
-                                    logic.changedPayType("刷卡");
-                                  })),
-                        ],
+                        children: _transType(),
                       ),
                     ),
                   ],
@@ -297,7 +274,6 @@ class _CheckInPageState extends State<CheckInPage> {
                       controller: state.lowKzController,
                       onChanged: (value) {
                         setState(() {
-                          //todo 这里放到logic中去 以下同理
                           state.lowKzController.text = value;
                           state.kzPrice[0] = int.parse(value);
                         });
@@ -450,4 +426,85 @@ class _CheckInPageState extends State<CheckInPage> {
         ));
   }
 
+  List<Widget> _transType() {
+    List<Widget> widgets = [];
+    if (state.record.payType == "挂账") {
+      widgets = [
+        Expanded(
+            child: RadioButton(
+                title: "挂账",
+                type: state.record.transType,
+                onPressed: () {
+                  logic.changedPayType("挂账");
+                })),
+        const Expanded(child: Text("")),
+        const Expanded(child: Text("")),
+        const Expanded(child: Text(""))
+      ];
+    } else {
+      switch (state.record.currencyUnit) {
+        case "宽扎":
+          widgets = [
+            Expanded(
+                child: RadioButton(
+                    title: "现金",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changedPayType("现金");
+                    })),
+            Expanded(
+                child: RadioButton(
+                    title: "转账",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changedPayType("转账");
+                    })),
+            Expanded(
+                child: RadioButton(
+                    title: "刷卡",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changedPayType("刷卡");
+                    })),
+            const Expanded(child: Text("")),
+          ];
+          break;
+        case "人民币":
+          widgets = [
+            Expanded(
+                child: RadioButton(
+                    title: "现金",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changedPayType("现金");
+                    })),
+            Expanded(
+                child: RadioButton(
+                    title: "微信转账",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changedPayType("微信转账");
+                    })),
+            const Expanded(child: Text("")),
+            const Expanded(child: Text(""))
+          ];
+          break;
+        case "美元":
+          widgets = [
+            Expanded(
+                child: RadioButton(
+                    title: "现金",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changedPayType("现金");
+                    })),
+            const Expanded(child: Text("")),
+            const Expanded(child: Text("")),
+            const Expanded(child: Text(""))
+          ];
+          break;
+      }
+    }
+    return widgets;
+  }
 }

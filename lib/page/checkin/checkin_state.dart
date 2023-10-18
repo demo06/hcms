@@ -47,6 +47,9 @@ class CheckInState {
   late List<int> rmbPrice;
 
   late List<int> kzPrice;
+  late List<String> kzTransType;
+  late List<String> rmbTransType;
+  late List<String> dollarTransType;
 
   CheckInState() {
     record = RoomRecord(
@@ -73,6 +76,10 @@ class CheckInState {
     lowRmbController = PinYinTextEditController();
     midRmbController = PinYinTextEditController();
     highRmbController = PinYinTextEditController();
+
+    kzTransType = ["现金", "刷卡", "转账", "挂账"];
+    rmbTransType = ["现金", "微信转账", "挂账"];
+    dollarTransType = ["现金"];
 
     // payType = "实收"; //1.实收  2.预收
     // currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
