@@ -47,22 +47,23 @@ class RecordDao {
 
   Future<List<Map<String, dynamic>>> getTimeZoneBase(startTime, endTime) async {
     List<Map<String, dynamic>> result =
-        await db.query('record', where: 'date > ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
+        await db.query('record', where: 'date >= ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
     return result;
   }
-
 
   Future<List<Map<String, dynamic>>> getTypeRate(String roomType) async {
-    List<Map<String, dynamic>> result =
-    await db.query('record', where: 'date > ? and date < ? and roomType=?', whereArgs: [TimeUtil.getMonthStart(), TimeUtil.getMonthEnd(),roomType], orderBy: 'id DESC');
-    return result;
-  }
-  Future<List<Map<String, dynamic>>> getTimeZoneSummary(startTime, endTime) async {
-    List<Map<String, dynamic>> result =
-    await db.query('record', where: 'date > ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
+    List<Map<String, dynamic>> result = await db.query('record',
+        where: 'date >= ? and date < ? and roomType=?',
+        whereArgs: [TimeUtil.getMonthStart(), TimeUtil.getMonthEnd(), roomType],
+        orderBy: 'id DESC');
     return result;
   }
 
+  Future<List<Map<String, dynamic>>> getTimeZoneSummary(startTime, endTime) async {
+    List<Map<String, dynamic>> result =
+        await db.query('record', where: 'date >= ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
+    return result;
+  }
 
   //根据 id 查询组件 node
   Future<List<Map<String, dynamic>>> queryById(int date) async {
@@ -76,7 +77,7 @@ class RecordDao {
   Future<int> update(RoomRecord record) async {
     //插入方法
     String updateSql = //插入数据
-        "UPDATE Record SET roomNo=? , roomType=? ,payType=?, currencyUnit=?,livingDays=?,price=?,amountPrice=?,transType=?,realPayAmount=?,remark=? "
+        "UPDATE Record SET roomNo=? , roomType=? ,payType=?, currencyUnit=?,livingDays=?,price=?,amountPrice=?,transType=?,realPayAmount=?,date=?,remark=? "
         "WHERE id = ?";
 
     return await db.rawUpdate(updateSql, [
@@ -89,6 +90,7 @@ class RecordDao {
       record.amountPrice,
       record.transType,
       record.realPayAmount,
+      record.date,
       record.remark,
       record.id
     ]);

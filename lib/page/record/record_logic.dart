@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/global/constants.dart';
@@ -47,8 +45,8 @@ class RecordLogic extends GetxController {
       body.add([key, value.toString(), "${(value / 28 * 100).toStringAsFixed(2)}%", ""]);
     });
     try {
-      ExcelHelper.generateTable(type == 1 ? "宾馆当月入住率${TimeUtil.getTodayDate()}" : "公寓当月入住率${TimeUtil.getTodayDate()}", deskTopPath, header,
-          body.reversed.toList());
+      ExcelHelper.generateTable(type == 1 ? "宾馆当月入住率${TimeUtil.getTodayDate()}" : "公寓当月入住率${TimeUtil.getTodayDate()}",
+          deskTopPath, header, body.reversed.toList());
       return 0;
     } catch (e) {
       return 1;
@@ -74,8 +72,8 @@ class RecordLogic extends GetxController {
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     try {
-      ExcelHelper.generateTable(
-          type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}", deskTopPath, header, datas.reversed.toList());
+      ExcelHelper.generateTable(type == 1 ? "当日基本表${TimeUtil.getTodayDate()}" : "当月基本表${TimeUtil.getTodayDate()}",
+          deskTopPath, header, datas.reversed.toList());
       return 0;
     } catch (e) {
       return 1;
@@ -90,11 +88,15 @@ class RecordLogic extends GetxController {
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     for (var record in datas) {
       var date = TimeUtil.transMillToDate(millisconds: record.date.toInt());
-      summary[date] = setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
+      summary[date] =
+          setNewDate(summary.containsKey(date) ? summary[date]! : ["", "0", "0", "0", "0", "0", "0", "0", ""], record);
     }
     try {
-      ExcelHelper.generateTable(type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
-          deskTopPath, header, summary.values.toList().reversed.toList());
+      ExcelHelper.generateTable(
+          type == 1 ? "当日汇总表${TimeUtil.getTodayDate()}" : "当月汇总表${TimeUtil.getTodayDate(format: "yyyy-MM")}",
+          deskTopPath,
+          header,
+          summary.values.toList().reversed.toList());
       return 0;
     } catch (e) {
       return 1;
@@ -166,9 +168,9 @@ class RecordLogic extends GetxController {
   }
 
   void subtraction() {
-    var days = state.record.livingDays - 1;
-    if (days > 1) {
-      state.record = state.record.copyWith(livingDays: days, amountPrice: state.record.price * days);
+    if (state.record.livingDays > 1) {
+      var living = state.record.livingDays - 1;
+      state.record = state.record.copyWith(livingDays: living, amountPrice: state.record.price * living);
     }
     update();
   }
@@ -186,6 +188,11 @@ class RecordLogic extends GetxController {
   void changeRemark(String remark) {
     state.remarkController.text = remark;
     state.record = state.record.copyWith(remark: remark);
+    update();
+  }
+
+  void changedDate(value) {
+    state.record = state.record.copyWith(date: TimeUtil.transDateToMill(date: value));
     update();
   }
 

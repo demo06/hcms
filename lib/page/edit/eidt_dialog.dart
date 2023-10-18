@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hcms/page/record/record_logic.dart';
+import 'package:hcms/utils/time_util.dart';
 import 'package:hcms/widget/number_view.dart';
 import 'package:hcms/widget/radio_button.dart';
 
@@ -37,11 +38,11 @@ class _EditDialogState extends State<EditDialog> {
       title: const Text("编辑"),
       content: SizedBox(
           width: MediaQuery.of(context).size.width - 200,
-          height: MediaQuery.of(context).size.height - 200,
+          height: MediaQuery.of(context).size.height - 180,
           child: GetBuilder<RecordLogic>(
             builder: (logic) {
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height - 80,
                   child: Column(
@@ -201,8 +202,29 @@ class _EditDialogState extends State<EditDialog> {
                           )),
                         ],
                       ),
+                      Row(
+                        children: [
+                          const Expanded(flex: 1, child: Text("日期:")),
+                          Expanded(
+                              child: RadioButton(
+                                  title: TimeUtil.transMillToDate(millisconds: state.record.date.toInt()),
+                                  type: TimeUtil.transMillToDate(millisconds: state.record.date.toInt()),
+                                  onPressed: () async {
+                                    var result = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.fromMillisecondsSinceEpoch(state.record.date.toInt()),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100));
+                                    logic.changedDate(TimeUtil.transMillToDate(
+                                        millisconds:
+                                            result?.millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch));
+                                  })),
+                          const Expanded(flex: 1, child: Text("")),
+                          const Expanded(flex: 1, child: Text("")),
+                        ],
+                      ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
+                        padding: const EdgeInsets.only(top: 4.0),
                         child: Container(
                           height: 230,
                           color: const Color(0XFFF2F2F2),

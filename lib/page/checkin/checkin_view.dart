@@ -211,11 +211,12 @@ class _CheckInPageState extends State<CheckInPage> {
                             onPressed: () async {
                               var result = await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
+                                  initialDate: DateTime.fromMillisecondsSinceEpoch(state.record.date.toInt()),
                                   firstDate: DateTime(2000),
                                   lastDate: DateTime(2100));
-                              logic.changedDate(
-                                  TimeUtil.transMillToDate(millisconds: result?.millisecondsSinceEpoch ?? 0));
+                              logic.changedDate(TimeUtil.transMillToDate(
+                                  millisconds:
+                                      result?.millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch));
                             })),
                     const Expanded(flex: 1, child: Text("")),
                     const Expanded(flex: 1, child: Text("")),

@@ -67,7 +67,6 @@ class CheckInLogic extends GetxController {
 
   void changedDate(value) {
     state.record = state.record.copyWith(date: TimeUtil.transDateToMill(date: value));
-    print(state.record);
     update();
   }
 
