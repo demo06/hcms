@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/model/record.dart';
 import 'package:hcms/utils/db_helper.dart';
+import 'package:hcms/utils/time_util.dart';
 import 'checkin_state.dart';
 
 class CheckInLogic extends GetxController {
@@ -61,6 +62,12 @@ class CheckInLogic extends GetxController {
 
   void changedPayType(value) {
     state.record = state.record.copyWith(transType: value);
+    update();
+  }
+
+  void changedDate(value) {
+    state.record = state.record.copyWith(date: TimeUtil.transDateToMill(date: value));
+    print(state.record);
     update();
   }
 
@@ -148,7 +155,7 @@ class CheckInLogic extends GetxController {
   }
 
   void insertRecord(BuildContext context) {
-    var currentDate = DateTime.now().millisecondsSinceEpoch;
+    var currentDate = state.record.date;
     if (state.record.livingDays > 1) {
       for (int i = 0; i < state.record.livingDays; i++) {
         DB.instance.recordDao.insert(state.record.copyWith(
@@ -160,7 +167,7 @@ class CheckInLogic extends GetxController {
       }
       state.record = state.record.copyWith(date: currentDate);
     } else {
-      DB.instance.recordDao.insert(state.record.copyWith(date: DateTime.now().millisecondsSinceEpoch));
+      DB.instance.recordDao.insert(state.record);
     }
     showToast(context, "录入成功");
   }

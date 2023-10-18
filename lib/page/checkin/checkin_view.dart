@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hcms/page/checkin/checkin_logic.dart';
+import 'package:hcms/utils/time_util.dart';
 import 'package:hcms/widget/number_view.dart';
 import 'package:hcms/widget/radio_button.dart';
 
@@ -200,6 +201,26 @@ class _CheckInPageState extends State<CheckInPage> {
                     )),
                   ],
                 ),
+                Row(
+                  children: [
+                    const Expanded(flex: 1, child: Text("日期:")),
+                    Expanded(
+                        child: RadioButton(
+                            title: TimeUtil.transMillToDate(millisconds: state.record.date.toInt()),
+                            type: TimeUtil.transMillToDate(millisconds: state.record.date.toInt()),
+                            onPressed: () async {
+                              var result = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2100));
+                              logic.changedDate(
+                                  TimeUtil.transMillToDate(millisconds: result?.millisecondsSinceEpoch ?? 0));
+                            })),
+                    const Expanded(flex: 1, child: Text("")),
+                    const Expanded(flex: 1, child: Text("")),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Container(
@@ -225,7 +246,7 @@ class _CheckInPageState extends State<CheckInPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 18.0),
+                  padding: const EdgeInsets.only(top: 6.0),
                   child: Row(
                     children: [
                       Expanded(

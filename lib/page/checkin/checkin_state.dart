@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hcms/model/record.dart';
 import 'package:hcms/model/room.dart';
 import 'package:hcms/utils/pinyin_controller.dart';
+import 'package:hcms/utils/time_util.dart';
 
 class CheckInState {
   final StreamController<String> textStream = StreamController.broadcast();
@@ -45,11 +46,7 @@ class CheckInState {
 
   late List<int> dollarPrice;
   late List<int> rmbPrice;
-
   late List<int> kzPrice;
-  late List<String> kzTransType;
-  late List<String> rmbTransType;
-  late List<String> dollarTransType;
 
   CheckInState() {
     record = RoomRecord(
@@ -77,10 +74,6 @@ class CheckInState {
     midRmbController = PinYinTextEditController();
     highRmbController = PinYinTextEditController();
 
-    kzTransType = ["现金", "刷卡", "转账", "挂账"];
-    rmbTransType = ["现金", "微信转账", "挂账"];
-    dollarTransType = ["现金"];
-
     // payType = "实收"; //1.实收  2.预收
     // currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
     // transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
@@ -89,7 +82,6 @@ class CheckInState {
     // amount = 0; //总价
     // price = 0; //单价
     // realIncome = "0"; //实收
-
     rooms = [
       Room(201, 1, "宾馆"),
       Room(202, 1, "宾馆"),

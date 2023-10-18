@@ -21,6 +21,13 @@ class TimeUtil {
     return DateFormat(format).format(DateTime.fromMillisecondsSinceEpoch(millisconds));
   }
 
+  static int transDateToMill({required String date, String? format = "yyyy-MM-dd"}) {
+    return DateTime.parse(date).millisecondsSinceEpoch;
+  }
+
+  static int transDateToString({required String date, String? format = "yyyy-MM-dd"}) {
+    return DateTime.parse(date).millisecondsSinceEpoch;
+  }
   static int getTodayStartTime() {
     DateTime now = DateTime.now(); // 获取当前日期时间
     DateTime dayStart = DateTime(now.year, now.month, now.day, 0); // 获取本月第一天的日期时间
