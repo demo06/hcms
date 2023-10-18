@@ -68,7 +68,7 @@ class RecordLogic extends GetxController {
 
   Future<int> exportBaseData(int type, int startTime, int endTime) async {
     var deskTopPath = await FileUtils.getDesktopPath();
-    List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "入住天数", "单价", "总计应收", "支付方式", "实收金额", "日期", "备注"];
+    List<String> header = ["序号", "房间号", "房间类型", "收费方式", "货币类型", "支付方式", "入住天数", "单价", "总计应收", "实收金额", "日期", "备注"];
     var recordList = await state.recordDao.getTimeZoneBase(startTime, endTime);
     var datas = recordList.map((e) => RoomRecord.fromJson(e)).toList();
     try {

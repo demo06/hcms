@@ -20,10 +20,10 @@ class RoomRecord {
     String? payType,
     String? roomType,
     String? currencyUnit,
+    String? transType,
     num? livingDays,
     num? price,
     num? amountPrice,
-    String? transType,
     num? realPayAmount,
     num? date,
     String? remark,
@@ -33,10 +33,10 @@ class RoomRecord {
     _payType = payType;
     _roomType = roomType;
     _currencyUnit = currencyUnit;
+    _transType = transType;
     _livingDays = livingDays;
     _price = price;
     _amountPrice = amountPrice;
-    _transType = transType;
     _realPayAmount = realPayAmount;
     _date = date;
     _remark = remark;
@@ -48,10 +48,10 @@ class RoomRecord {
     _payType = json['payType'];
     _roomType = json['roomType'];
     _currencyUnit = json['currencyUnit'];
+    _transType = json['transType'];
     _livingDays = json['livingDays'];
     _price = json['price'];
     _amountPrice = json['amountPrice'];
-    _transType = json['transType'];
     _realPayAmount = json['realPayAmount'];
     _date = json['date'];
     _remark = json['remark'].toString();
@@ -76,10 +76,10 @@ class RoomRecord {
     String? payType,
     String? roomType,
     String? currencyUnit,
+    String? transType,
     num? livingDays,
     num? price,
     num? amountPrice,
-    String? transType,
     num? realPayAmount,
     num? date,
     String? remark,
@@ -90,10 +90,10 @@ class RoomRecord {
         payType: payType ?? _payType,
         roomType: roomType ?? _roomType,
         currencyUnit: currencyUnit ?? _currencyUnit,
+        transType: transType ?? _transType,
         livingDays: livingDays ?? _livingDays,
         price: price ?? _price,
         amountPrice: amountPrice ?? _amountPrice,
-        transType: transType ?? _transType,
         realPayAmount: realPayAmount ?? _realPayAmount,
         date: date ?? _date,
         remark: remark ?? _remark,
@@ -130,10 +130,10 @@ class RoomRecord {
     map['payType'] = _payType;
     map['roomType'] = _roomType;
     map['currencyUnit'] = _currencyUnit;
+    map['transType'] = _transType;
     map['livingDays'] = _livingDays;
     map['price'] = _price;
     map['amountPrice'] = _amountPrice;
-    map['transType'] = _transType;
     map['realPayAmount'] = _realPayAmount;
     map['date'] = _date;
     map['remark'] = _remark;
@@ -142,7 +142,7 @@ class RoomRecord {
 
   @override
   String toString() {
-    return 'RoomRecord{_id: $_id, _roomNo: $_roomNo, _payType: $_payType, _roomType: $_roomType, _currencyUnit: $_currencyUnit, _livingDays: $_livingDays, _price: $_price, _amountPrice: $_amountPrice, _transType: $_transType, _realPayAmount: $_realPayAmount, _date: $_date, _remark: $_remark}';
+    return 'RoomRecord{_id: $_id, _roomNo: $_roomNo, _payType: $_payType, _roomType: $_roomType, _currencyUnit: $_currencyUnit, _transType: $_transType, _livingDays: $_livingDays, _price: $_price, _amountPrice: $_amountPrice, _realPayAmount: $_realPayAmount, _date: $_date, _remark: $_remark}';
   }
 
   List<String> toList() {
@@ -152,10 +152,10 @@ class RoomRecord {
       _payType.toString(),
       _roomType.toString(),
       _currencyUnit.toString(),
+      _transType.toString(),
       _livingDays.toString(),
       _price.toString(),
       _amountPrice.toString(),
-      _transType.toString(),
       _realPayAmount.toString(),
       TimeUtil.transMillToDate(millisconds: _date!.toInt()),
       _remark.toString()
