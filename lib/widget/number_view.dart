@@ -10,22 +10,23 @@ class NumberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool enable = subtraction != null;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
           IconButton(
               onPressed: subtraction,
-              icon: const Icon(
+              icon: Icon(
                 Icons.indeterminate_check_box_rounded,
-                color: Colors.red,
+                color: enable ? Colors.red : Colors.grey,
               )),
           Text("$number"),
           IconButton(
               onPressed: addition,
-              icon: const Icon(
+              icon: Icon(
                 Icons.add_box_rounded,
-                color: Colors.red,
+                color: enable ? Colors.red : Colors.grey,
               ))
         ],
       ),

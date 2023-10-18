@@ -64,33 +64,24 @@ class _EditDialogState extends State<EditDialog> {
                                   onPressed: () {
                                     logic.changePayType("预收");
                                   })),
-                          const Expanded(child: Text("")),
+                          Expanded(
+                              child: RadioButton(
+                                  title: "挂账",
+                                  type: state.record.payType,
+                                  onPressed: () {
+                                    logic.changePayType("挂账");
+                                  })),
                         ],
                       ),
                       Row(
                         children: [
-                          const Expanded(child: Text("结算货币种类:")),
+                          const Expanded(flex: 1, child: Text("结算货币种类:")),
                           Expanded(
-                              child: RadioButton(
-                                  title: "宽扎",
-                                  type: state.record.currencyUnit,
-                                  onPressed: () {
-                                    logic.changeCurrencyUnit("宽扎");
-                                  })),
-                          Expanded(
-                              child: RadioButton(
-                                  title: "人民币",
-                                  type: state.record.currencyUnit,
-                                  onPressed: () {
-                                    logic.changeCurrencyUnit("人民币");
-                                  })),
-                          Expanded(
-                              child: RadioButton(
-                                  title: "美元",
-                                  type: state.record.currencyUnit,
-                                  onPressed: () {
-                                    logic.changeCurrencyUnit("美元");
-                                  })),
+                            flex: 3,
+                            child: Row(
+                              children: _currencyUnit(),
+                            ),
+                          ),
                         ],
                       ),
                       Row(
@@ -99,36 +90,7 @@ class _EditDialogState extends State<EditDialog> {
                           Expanded(
                             flex: 3,
                             child: Row(
-                              children: [
-                                Expanded(
-                                    child: RadioButton(
-                                        title: "现金",
-                                        type: state.record.transType,
-                                        onPressed: () {
-                                          logic.changeTransType("现金");
-                                        })),
-                                Expanded(
-                                    child: RadioButton(
-                                        title: state.record.currencyUnit == "人民币" ? "微信转账" : "转账",
-                                        type: state.record.transType,
-                                        onPressed: () {
-                                          logic.changeTransType(state.record.currencyUnit == "人民币" ? "微信转账" : "转账");
-                                        })),
-                                Expanded(
-                                    child: RadioButton(
-                                        title: "挂账",
-                                        type: state.record.transType,
-                                        onPressed: () {
-                                          logic.changeTransType("挂账");
-                                        })),
-                                Expanded(
-                                    child: RadioButton(
-                                        title: "刷卡",
-                                        type: state.record.transType,
-                                        onPressed: () {
-                                          logic.changeTransType("刷卡");
-                                        })),
-                              ],
+                              children: _transType(),
                             ),
                           ),
                         ],
@@ -140,8 +102,9 @@ class _EditDialogState extends State<EditDialog> {
                               flex: 1,
                               child: NumberView(
                                   number: state.record.livingDays.toInt(),
-                                  addition: () => logic.addition(),
-                                  subtraction: () => logic.subtraction())),
+                                  addition: null, //logic.addition(),
+                                  subtraction: null //logic.subtraction()
+                                  )),
                           const Expanded(flex: 1, child: Text("")),
                           const Expanded(flex: 1, child: Text("")),
                         ],
@@ -267,5 +230,129 @@ class _EditDialogState extends State<EditDialog> {
         ),
       ],
     );
+  }
+
+  List<Widget> _transType() {
+    List<Widget> widgets = [];
+    if (state.record.payType == "挂账") {
+      widgets = [
+        Expanded(
+            child: RadioButton(
+                title: "挂账",
+                type: state.record.transType,
+                onPressed: () {
+                  logic.changePayType("挂账");
+                })),
+        const Expanded(child: Text("")),
+        const Expanded(child: Text("")),
+        const Expanded(child: Text(""))
+      ];
+    } else {
+      switch (state.record.currencyUnit) {
+        case "宽扎":
+          widgets = [
+            Expanded(
+                child: RadioButton(
+                    title: "现金",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changeTransType("现金");
+                    })),
+            Expanded(
+                child: RadioButton(
+                    title: "转账",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changeTransType("转账");
+                    })),
+            Expanded(
+                child: RadioButton(
+                    title: "刷卡",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changeTransType("刷卡");
+                    })),
+            const Expanded(child: Text("")),
+          ];
+          break;
+        case "人民币":
+          widgets = [
+            Expanded(
+                child: RadioButton(
+                    title: "现金",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changeTransType("现金");
+                    })),
+            Expanded(
+                child: RadioButton(
+                    title: "微信转账",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changeTransType("微信转账");
+                    })),
+            const Expanded(child: Text("")),
+            const Expanded(child: Text(""))
+          ];
+          break;
+        case "美元":
+          widgets = [
+            Expanded(
+                child: RadioButton(
+                    title: "现金",
+                    type: state.record.transType,
+                    onPressed: () {
+                      logic.changeTransType("现金");
+                    })),
+            const Expanded(child: Text("")),
+            const Expanded(child: Text("")),
+            const Expanded(child: Text(""))
+          ];
+          break;
+      }
+    }
+    return widgets;
+  }
+
+  List<Widget> _currencyUnit() {
+    List<Widget> widgets = [];
+    if (state.record.payType == "挂账") {
+      widgets = [
+        Expanded(
+            child: RadioButton(
+                title: "宽扎",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changeCurrencyUnit("宽扎");
+                })),
+        const Expanded(child: Text("")),
+        const Expanded(child: Text(""))
+      ];
+    } else {
+      widgets = [
+        Expanded(
+            child: RadioButton(
+                title: "宽扎",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changeCurrencyUnit("宽扎");
+                })),
+        Expanded(
+            child: RadioButton(
+                title: "人民币",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changeCurrencyUnit("人民币");
+                })),
+        Expanded(
+            child: RadioButton(
+                title: "美元",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changeCurrencyUnit("美元");
+                })),
+      ];
+    }
+    return widgets;
   }
 }

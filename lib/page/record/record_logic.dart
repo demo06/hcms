@@ -146,13 +146,31 @@ class RecordLogic extends GetxController {
     update();
   }
 
-  void changePayType(String payType) {
-    state.record = state.record.copyWith(payType: payType);
+  void changePayType(String value) {
+    state.record = state.record
+        .copyWith(payType: value, currencyUnit: value == "挂账" ? "宽扎" : "宽扎", transType: value == "挂账" ? "挂账" : "现金");
     update();
   }
 
-  void changeCurrencyUnit(String currencyUnit) {
-    state.record = state.record.copyWith(currencyUnit: currencyUnit);
+  void changeCurrencyUnit(String value) {
+    state.record = state.record.copyWith(currencyUnit: value, transType: state.record.payType == "挂账" ? "挂账" : "现金");
+    var price = 0;
+    for (var element in state.rooms) {
+      if (element.no == state.record.roomNo) {
+        switch (state.record.currencyUnit) {
+          case "宽扎":
+            price = state.kzPrice[element.level];
+            break;
+          case "人民币":
+            price = state.rmbPrice[element.level];
+            break;
+          case "美元":
+            price = state.dollarPrice[element.level];
+            break;
+        }
+      }
+    }
+    changePrice(price);
     update();
   }
 
@@ -163,20 +181,27 @@ class RecordLogic extends GetxController {
 
   void addition() {
     var days = state.record.livingDays + 1;
-    state.record = state.record.copyWith(livingDays: days, amountPrice: state.record.price * days);
+    state.record = state.record
+        .copyWith(amountPrice: state.record.price * days, livingDays: days, realPayAmount: state.record.price * days);
+    state.realIncomeController.text = (state.record.price * days).toString();
     update();
   }
 
   void subtraction() {
     if (state.record.livingDays > 1) {
       var living = state.record.livingDays - 1;
-      state.record = state.record.copyWith(livingDays: living, amountPrice: state.record.price * living);
+      state.record = state.record.copyWith(
+          amountPrice: state.record.price * living, livingDays: living, realPayAmount: state.record.price * living);
+      state.realIncomeController.text = (state.record.price * living).toString();
     }
     update();
   }
 
   void changePrice(int price) {
-    state.record = state.record.copyWith(price: price, amountPrice: price * state.record.livingDays);
+    state.record = state.record.copyWith(
+        price: price, amountPrice: price * state.record.livingDays, realPayAmount: price * state.record.livingDays);
+    state.realIncomeController.text = (price * state.record.livingDays).toString();
+    state.priceController.text = price.toString();
     update();
   }
 
