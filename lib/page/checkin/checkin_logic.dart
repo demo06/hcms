@@ -45,17 +45,20 @@ class CheckInLogic extends GetxController {
         }
       }
     }
-    state.record = state.record.copyWith(price: price, amountPrice: price * state.record.livingDays);
+    state.record = state.record.copyWith(
+        price: price, amountPrice: price * state.record.livingDays, realPayAmount: price * state.record.livingDays);
+    state.realIncomeController.text = (price * state.record.livingDays).toString();
   }
 
   void changedEntryType(value) {
     state.record = state.record
         .copyWith(payType: value, currencyUnit: value == "挂账" ? "宽扎" : "宽扎", transType: value == "挂账" ? "挂账" : "现金");
+    changedPrice();
     update();
   }
 
   void changedCurrencyUnit(value) {
-    state.record = state.record.copyWith(currencyUnit: value, transType: "现金");
+    state.record = state.record.copyWith(currencyUnit: value, transType: state.record.payType == "挂账" ? "挂账" : "现金");
     changedPrice();
     update();
   }
@@ -78,7 +81,9 @@ class CheckInLogic extends GetxController {
 
   void addition() {
     var living = state.record.livingDays + 1;
-    state.record = state.record.copyWith(amountPrice: state.record.price * living, livingDays: living);
+    state.record = state.record.copyWith(
+        amountPrice: state.record.price * living, livingDays: living, realPayAmount: state.record.price * living);
+    state.realIncomeController.text = (state.record.price * living).toString();
     update();
   }
 
@@ -99,7 +104,9 @@ class CheckInLogic extends GetxController {
   void subtraction() {
     if (state.record.livingDays > 1) {
       var living = state.record.livingDays - 1;
-      state.record = state.record.copyWith(amountPrice: state.record.price * living, livingDays: living);
+      state.record = state.record.copyWith(
+          amountPrice: state.record.price * living, livingDays: living, realPayAmount: state.record.price * living);
+      state.realIncomeController.text = (state.record.price * living).toString();
     }
     update();
   }

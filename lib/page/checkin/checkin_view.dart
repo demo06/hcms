@@ -75,28 +75,13 @@ class _CheckInPageState extends State<CheckInPage> {
                 ),
                 Row(
                   children: [
-                    const Expanded(child: Text("结算货币种类:")),
+                    const Expanded(flex: 1, child: Text("结算货币种类:")),
                     Expanded(
-                        child: RadioButton(
-                            title: "宽扎",
-                            type: state.record.currencyUnit,
-                            onPressed: () {
-                              logic.changedCurrencyUnit("宽扎");
-                            })),
-                    Expanded(
-                        child: RadioButton(
-                            title: "人民币",
-                            type: state.record.currencyUnit,
-                            onPressed: () {
-                              logic.changedCurrencyUnit("人民币");
-                            })),
-                    Expanded(
-                        child: RadioButton(
-                            title: "美元",
-                            type: state.record.currencyUnit,
-                            onPressed: () {
-                              logic.changedCurrencyUnit("美元");
-                            })),
+                      flex: 3,
+                      child: Row(
+                        children: _currencyUnit(),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -526,6 +511,48 @@ class _CheckInPageState extends State<CheckInPage> {
           ];
           break;
       }
+    }
+    return widgets;
+  }
+
+  List<Widget> _currencyUnit() {
+    List<Widget> widgets = [];
+    if (state.record.payType == "挂账") {
+      widgets = [
+        Expanded(
+            child: RadioButton(
+                title: "宽扎",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changedCurrencyUnit("宽扎");
+                })),
+        const Expanded(child: Text("")),
+        const Expanded(child: Text(""))
+      ];
+    } else {
+      widgets = [
+        Expanded(
+            child: RadioButton(
+                title: "宽扎",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changedCurrencyUnit("宽扎");
+                })),
+        Expanded(
+            child: RadioButton(
+                title: "人民币",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changedCurrencyUnit("人民币");
+                })),
+        Expanded(
+            child: RadioButton(
+                title: "美元",
+                type: state.record.currencyUnit,
+                onPressed: () {
+                  logic.changedCurrencyUnit("美元");
+                })),
+      ];
     }
     return widgets;
   }
