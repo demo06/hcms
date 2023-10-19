@@ -74,14 +74,6 @@ class CheckInState {
     midRmbController = PinYinTextEditController();
     highRmbController = PinYinTextEditController();
 
-    // payType = "实收"; //1.实收  2.预收
-    // currencyUnit = "宽扎"; //1.宽扎 2.人民币 3.美元
-    // transType = "现金"; //转账类型 1.现金 2.微信转账 3.挂账
-    // living = 1; //入住天数
-    // defaultLiving = "201";
-    // amount = 0; //总价
-    // price = 0; //单价
-    // realIncome = "0"; //实收
     rooms = [
       Room(201, 1, "宾馆"),
       Room(202, 1, "宾馆"),

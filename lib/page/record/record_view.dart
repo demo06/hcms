@@ -53,8 +53,7 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当日汇总",
                       type: "当日汇总",
                       onPressed: () async {
-                        var result =
-                            await logic.exportSummaryData(1, TimeUtil.getTodayStartTime(), TimeUtil.getTodayEndTime());
+                        int result = await logic.exportSummary(1);
                         logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),

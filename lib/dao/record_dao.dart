@@ -40,15 +40,26 @@ class RecordDao {
 
   Future<List<Map<String, dynamic>>> getTwentyItems(int pageNumber) async {
     int offset = (pageNumber - 1) * Constants.pageSize;
-    List<Map<String, dynamic>> result = await db.query('record', limit: Constants.pageSize, offset: offset, orderBy: 'id DESC');
+    List<Map<String, dynamic>> result =
+        await db.query('record', limit: Constants.pageSize, offset: offset, orderBy: 'id DESC');
     return result;
   }
 
-  Future<List<Map<String, dynamic>>> getSummary(roomType, currencyUnit, transType, startTime, endTime) async {
-    String sql = //插入数据
-        "SELECT SUM(realPayAmount) FROM Record "
-        "WHERE roomType = ? AND currencyUnit=? AND transType=? AND date>=? AND date<= ?";
-    var result = await db.rawQuery(sql, [roomType, currencyUnit, transType, startTime, endTime]);
+  Future<List<Map<String, dynamic>>> getSummary(
+    String? roomType,
+    String currencyUnit,
+    String transType,
+    int startTime,
+    int endTime,
+  ) async {
+    final String sql = roomType != null
+        ? "SELECT SUM(realPayAmount) FROM Record WHERE roomType = ? AND currencyUnit=? AND transType=? AND date>=? AND date<= ?"
+        : "SELECT SUM(realPayAmount) FROM Record WHERE currencyUnit=? AND transType=? AND date>=? AND date<= ?";
+
+    final List<dynamic> params = roomType != null
+        ? [roomType, currencyUnit, transType, startTime, endTime]
+        : [currencyUnit, transType, startTime, endTime];
+    final result = await db.rawQuery(sql, params);
     return result;
   }
 
