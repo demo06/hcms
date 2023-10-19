@@ -89,7 +89,7 @@ class _RecordPageState extends State<RecordPage> {
                       title: "当月汇总",
                       type: "当月汇总",
                       onPressed: () async {
-                        var result = await logic.exportSummary(2, "宾馆","宽扎" ,"现金");
+                        var result = await logic.exportSummary(2);
                         logic.showToast(context, text: result == 0 ? "导出成功" : "导出失败");
                       },
                     ),

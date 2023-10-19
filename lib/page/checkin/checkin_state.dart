@@ -58,7 +58,7 @@ class CheckInState {
         price: 43000,
         amountPrice: 43000,
         transType: "现金",
-        realPayAmount: 0,
+        realPayAmount: 43000,
         date: DateTime.now().millisecondsSinceEpoch,
         remark: "");
 

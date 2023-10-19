@@ -16,7 +16,7 @@ class CheckInLogic extends GetxController {
   }
 
   void initInputValue() {
-    state.realIncomeController.text = "0";
+    state.realIncomeController.text = state.record.realPayAmount.toString();
     state.lowKzController.text = state.kzPrice[0].toString();
     state.midKzController.text = state.kzPrice[1].toString();
     state.highKzController.text = state.kzPrice[2].toString();
