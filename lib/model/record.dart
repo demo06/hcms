@@ -148,16 +148,14 @@ class RoomRecord {
   List<String> toList() {
     return [
       _id.toString(),
+      TimeUtil.transMillToDate(millisconds: _date!.toInt()),
       _roomNo.toString(),
-      _payType.toString(),
       _roomType.toString(),
       _currencyUnit.toString(),
-      _transType.toString(),
       _livingDays.toString(),
       _price.toString(),
-      _amountPrice.toString(),
       _realPayAmount.toString(),
-      TimeUtil.transMillToDate(millisconds: _date!.toInt()),
+      _transType.toString(),
       _remark.toString()
     ];
   }

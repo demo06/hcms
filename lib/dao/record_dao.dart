@@ -64,8 +64,11 @@ class RecordDao {
   }
 
   Future<List<Map<String, dynamic>>> getTimeZoneBase(startTime, endTime) async {
+    // List<Map<String, dynamic>> result =
+    //     await db.query('record', where: 'date >= ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
+    String sql ="SELECT id,date,roomNo,roomType,livingDays,currencyUnit,price,realPayAmount,transType,remark FROM Record WHERE date >= ? and date < ? ORDER BY id DESC";
     List<Map<String, dynamic>> result =
-        await db.query('record', where: 'date >= ? and date < ?', whereArgs: [startTime, endTime], orderBy: 'id DESC');
+        await db.rawQuery(sql,[startTime, endTime]);
     return result;
   }
 
