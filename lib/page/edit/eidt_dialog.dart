@@ -102,9 +102,8 @@ class _EditDialogState extends State<EditDialog> {
                               flex: 1,
                               child: NumberView(
                                   number: state.record.livingDays.toInt(),
-                                  addition: null, //logic.addition(),
-                                  subtraction: null //logic.subtraction()
-                                  )),
+                                  addition: () => logic.addition(),
+                                  subtraction: () => logic.subtraction())),
                           const Expanded(flex: 1, child: Text("")),
                           const Expanded(flex: 1, child: Text("")),
                         ],
